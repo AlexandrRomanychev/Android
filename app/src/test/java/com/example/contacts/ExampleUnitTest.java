@@ -1,4 +1,7 @@
 package com.example.contacts;
+import androidx.room.Room;
+
+import com.example.contacts.database.AppDatabase;
 
 import org.junit.Test;
 
@@ -11,7 +14,7 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
+    public void addingToDatabase() {
         assertEquals(4, 2 + 2);
     }
 }
