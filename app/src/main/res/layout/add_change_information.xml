@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
+
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    android:backgroundTint="@android:color/darker_gray">
+    android:backgroundTint="@android:color/darker_gray"
+    tools:context=".AddChangeInformation">
 
     <ImageView
         android:id="@+id/image_human"
@@ -16,10 +20,12 @@
         android:layout_gravity="center"
         android:layout_marginBottom="80dp"
         android:layout_marginLeft="10dp"
+
         android:background="@android:color/white"
         tools:srcCompat="@tools:sample/avatars" />
 
     <LinearLayout
+
         android:layout_width="match_parent"
         android:layout_height="410dp"
         android:layout_gravity="center"
@@ -33,11 +39,12 @@
             android:layout_gravity="top"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="27dp"
+            android:paddingLeft="10dp"
+
             android:background="@android:color/darker_gray"
             android:backgroundTint="@android:color/background_light"
 
             android:hint="ФИО"
-            android:paddingLeft="10dp"
             android:textSize="16sp" />
 
         <EditText
@@ -47,6 +54,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="27dp"
             android:layout_weight="1"
+
             android:background="@android:color/darker_gray"
             android:backgroundTint="@android:color/background_light"
 
@@ -58,31 +66,35 @@
             android:textSize="16sp" />
 
         <EditText
+
             android:id="@+id/phone"
             android:layout_width="236dp"
             android:layout_height="8dp"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="100dp"
+            android:paddingLeft="10dp"
             android:layout_weight="1"
+
             android:background="@android:color/darker_gray"
             android:backgroundTint="@android:color/background_light"
+
             android:ems="10"
             android:hint="Телефон"
-            android:inputType="phone"
-
-            android:paddingLeft="10dp" />
+            android:inputType="phone" />
 
         <Button
             android:id="@+id/save"
+
             android:layout_width="85dp"
             android:layout_height="0dp"
             android:layout_gravity="start"
             android:layout_weight="1"
-
             android:minWidth="100dp"
+
             android:backgroundTint="@android:color/tertiary_text_light"
             android:fontFamily="casual"
             android:text="Сохранить"
+
             android:textColor="@android:color/background_light"
             android:autoSizeMaxTextSize="16sp"
             android:textSize="6sp"
