@@ -9,4 +9,9 @@ import com.example.contacts.database.entity.User;
 @Database(entities = {User.class}, version =  1)
 public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
+    public boolean checkUser(User user){
+        if (user != null)
+            return true;
+        return false;
+    }
 }

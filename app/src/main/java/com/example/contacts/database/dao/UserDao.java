@@ -17,8 +17,11 @@ public interface UserDao {
     @Query("SELECT * FROM user WHERE uid IN (:userIds)")
     List<User> loadAllByIds(int[] userIds);
 
-    @Query("SELECT * FROM user WHERE login = :login AND password = :password")
-    User findByLogin(String login, String password);
+    @Query("SELECT COUNT(*) FROM user WHERE login = :login AND password = :password")
+    Integer findCountUsers(String login, String password);
+
+    @Query("SELECT COUNT(*) FROM user WHERE login = :login")
+    Integer findUserByLogin(String login);
 
     @Insert
     void insertAll(User... users);
