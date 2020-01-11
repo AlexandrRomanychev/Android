@@ -1,7 +1,4 @@
 package com.example.contacts;
-import androidx.room.Room;
-
-import com.example.contacts.database.AppDatabase;
 
 import org.junit.Test;
 
