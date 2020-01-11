@@ -10,10 +10,10 @@ import com.example.contacts.database.entity.User;
 
 public class AsyncCheckRegistryUser extends AsyncTask<Void, Void, Integer> {
 
-    private AppDatabase db;
-    private Context activity;
-    private User user;
-    private Class nextPage;
+    private final AppDatabase db;
+    private final Context activity;
+    private final User user;
+    private final Class nextPage;
 
     public AsyncCheckRegistryUser(Context activity, AppDatabase db, User user, Class nextPage){
         this.activity = activity;

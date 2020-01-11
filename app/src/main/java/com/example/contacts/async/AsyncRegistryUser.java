@@ -6,8 +6,8 @@ import com.example.contacts.database.entity.User;
 
 public class AsyncRegistryUser extends AsyncTask<Void, Void, Integer> {
 
-    private AppDatabase db;
-    private User user;
+    private final AppDatabase db;
+    private final User user;
 
     public AsyncRegistryUser(AppDatabase db, User user){
         this.db = db;
