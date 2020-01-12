@@ -2,6 +2,7 @@ package com.example.contacts;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -35,7 +36,7 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
         {
             case R.id.add_profile:
                 // Если была нажата только один раз, то варианты добавления контакта появяться.
-                // При повторном исчезают
+                // При повторном - исчезают
                 if(btn_add.isPressed()&& flag == 0){
                    btn_new.setVisibility(View.VISIBLE);
                    btn_import.setVisibility(View.VISIBLE);
@@ -53,6 +54,11 @@ public class Profile extends AppCompatActivity implements View.OnClickListener {
                 }
                 break;
 
+            case R.id.new_profile:
+                // Переход на страницу добавления профиля
+                Intent intent = new Intent(this, AddChangeInformation.class);
+                startActivity(intent);
+                break;
             default:
                 break;
         }
