@@ -56,16 +56,45 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="517dp"
+        android:layout_height="528dp"
         android:layout_marginBottom="20dp"
         android:background="@android:color/white" />
 
-    <Button
-        android:id="@+id/add_profile"
-        android:layout_width="104dp"
-        android:layout_height="91dp"
-        android:layout_gravity="end"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/button_add_profile_circle" />
+    <LinearLayout
+        android:layout_width="328dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/import_profile"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_chose_add_profile"
+            android:backgroundTint="#826F6B6B"
+            android:text="Импорт"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/new_profile"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_marginRight="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_chose_add_profile"
+            android:backgroundTint="#826F6B6B"
+            android:text="Новый"
+            android:visibility="invisible" />
+
+        <ImageButton
+            android:id="@+id/add_profile"
+            android:layout_width="104dp"
+            android:layout_height="74dp"
+            android:layout_gravity="end|center"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/button_add_profile_circle" />
+    </LinearLayout>
 
 </LinearLayout>
