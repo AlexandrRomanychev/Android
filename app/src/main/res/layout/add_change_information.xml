@@ -5,101 +5,113 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
 
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
     android:backgroundTint="@android:color/darker_gray"
-    tools:context=".AddChangeInformation">
-
-    <ImageView
-        android:id="@+id/image_human"
-        android:layout_width="139dp"
-        android:layout_height="250dp"
-
-        android:layout_gravity="center"
-        android:layout_marginBottom="80dp"
-        android:layout_marginLeft="10dp"
-
-        android:background="@android:color/white"
-        tools:srcCompat="@tools:sample/avatars" />
+    tools:context=".AddChangeInformation"
+    android:gravity="center">
 
     <LinearLayout
-
         android:layout_width="match_parent"
-        android:layout_height="410dp"
-        android:layout_gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image_human"
+            android:layout_width="139dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:background="@android:color/white"
+            tools:srcCompat="@tools:sample/avatars" />
 
-        <EditText
-            android:id="@+id/Surname_name_patronymic"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
 
-            android:layout_width="236dp"
-            android:layout_height="63dp"
-            android:layout_gravity="top"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="27dp"
-            android:paddingLeft="10dp"
+            <EditText
+                android:id="@+id/surname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:paddingStart="10dp"
+                android:background="@android:color/darker_gray"
+                android:backgroundTint="@android:color/background_light"
+                android:hint="Фамилия"
+                android:textSize="24sp"
+                android:inputType="text" />
 
-            android:background="@android:color/darker_gray"
-            android:backgroundTint="@android:color/background_light"
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:paddingStart="10dp"
+                android:background="@android:color/darker_gray"
+                android:backgroundTint="@android:color/background_light"
+                android:hint="Имя"
+                android:textSize="24sp"
+                android:inputType="text" />
 
-            android:hint="ФИО"
-            android:textSize="16sp" />
+            <EditText
+                android:id="@+id/patronymic"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="10dp"
+                android:paddingStart="10dp"
+                android:background="@android:color/darker_gray"
+                android:backgroundTint="@android:color/background_light"
+                android:hint="Отчество"
+                android:textSize="24sp"
+                android:inputType="text" />
 
-        <EditText
-            android:id="@+id/birthday"
-            android:layout_width="236dp"
-            android:layout_height="6dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="27dp"
-            android:layout_weight="1"
+            <EditText
+                android:id="@+id/birthday"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray"
+                android:backgroundTint="@android:color/background_light"
+                android:hint="Дата рождения"
+                android:inputType="date"
+                android:paddingLeft="10dp"
+                android:textSize="24sp" />
 
-            android:background="@android:color/darker_gray"
-            android:backgroundTint="@android:color/background_light"
-
-            android:ems="10"
-
-            android:hint="Дата рождения"
-            android:inputType="date"
-            android:paddingLeft="10dp"
-            android:textSize="16sp" />
-
-        <EditText
-
-            android:id="@+id/phone"
-            android:layout_width="236dp"
-            android:layout_height="8dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="100dp"
-            android:paddingLeft="10dp"
-            android:layout_weight="1"
-
-            android:background="@android:color/darker_gray"
-            android:backgroundTint="@android:color/background_light"
-
-            android:ems="10"
-            android:hint="Телефон"
-            android:inputType="phone" />
-
-        <Button
-            android:id="@+id/save"
-
-            android:layout_width="85dp"
-            android:layout_height="0dp"
-            android:layout_gravity="start"
-            android:layout_weight="1"
-            android:minWidth="100dp"
-
-            android:backgroundTint="@android:color/tertiary_text_light"
-            android:fontFamily="casual"
-            android:text="Сохранить"
-
-            android:textColor="@android:color/background_light"
-            android:autoSizeMaxTextSize="16sp"
-            android:textSize="6sp"
-            android:textStyle="bold" />
-
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:background="@android:color/darker_gray"
+                android:backgroundTint="@android:color/background_light"
+                android:ems="10"
+                android:hint="Телефон"
+                android:paddingLeft="10dp"
+                android:inputType="phone"
+                android:textSize="24sp"/>
+        </LinearLayout>
     </LinearLayout>
-
+    <Button
+        android:id="@+id/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text = "Сохранить"
+        android:textSize="24sp"
+        android:layout_marginTop="30dp"/>
 </LinearLayout>
