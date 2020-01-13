@@ -26,4 +26,23 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    implementation 'com.google.android.material:material:1.0.0'
+
+    implementation 'com.facebook.fresco:fresco:2.0.0'
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Для дополнительных возможностей. Вдруг понадобится. Если нет - удалим
+
+    // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:2.0.0'
+
+    // For WebP support, including animated WebP
+    implementation 'com.facebook.fresco:animated-webp:2.0.0'
+    implementation 'com.facebook.fresco:webpsupport:2.0.0'
+
+    // For WebP support, without animations
+    implementation 'com.facebook.fresco:webpsupport:2.0.0'
+
+    // Provide the Android support library (you might already have this or a similar dependency)
+    //implementation 'com.android.support:support-core-utils:24.2.1'
 }
