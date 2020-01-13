@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new AsyncEnterUser(MainActivity.this, db,
                         new User(login.getText().toString(), password.getText().toString()),
-                        LoginActivity.class).execute();
+                        Profile.class).execute();
             }
         });
 
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 new AsyncCheckRegistryUser(MainActivity.this, db,
                         new User(login.getText().toString(), password.getText().toString()),
-                        LoginActivity.class).execute();
+                        Profile.class).execute();
             }
         });
     }
