@@ -15,14 +15,8 @@ public interface ContactDao {
     @Query("SELECT * FROM contact")
     List<Contact> getAll();
 
-    @Query("SELECT * FROM user WHERE uid IN (:userIds)")
-    List<User> loadAllByIds(int[] userIds);
-
-    @Query("SELECT COUNT(*) FROM user WHERE login = :login AND password = :password")
-    Integer findCountUsers(String login, String password);
-
-    @Query("SELECT COUNT(*) FROM user WHERE login = :login")
-    Integer findUserByLogin(String login);
+    @Query("SELECT * FROM contact WHERE uid IN (:contactIds)")
+    List<User> loadAllByIds(int[] contactIds);
 
     @Insert
     void insertAll(Contact... contacts);
