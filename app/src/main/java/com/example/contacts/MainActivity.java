@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         Button enter = findViewById(R.id.authorization);
         Button registry = findViewById(R.id.registration);
 
-        final AppDatabase db  = Room.inMemoryDatabaseBuilder(MainActivity.this, AppDatabase.class).build();
+        final AppDatabase db = Room.inMemoryDatabaseBuilder(MainActivity.this, AppDatabase.class).build();
 
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
