@@ -24,6 +24,14 @@ public class Contact {
     @ColumnInfo(name = "date")
     public String date;
 
+    public Contact(String surname, String name, String patronymic, String date, String phone){
+        this.surname = surname;
+        this.name = name;
+        this.patronymic = patronymic;
+        this.date = date;
+        this.phone = phone;
+    }
+
     public int getUid() {
         return uid;
     }
