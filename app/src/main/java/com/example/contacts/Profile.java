@@ -57,7 +57,12 @@ public class Profile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Переход на страницу добавления профиля
-                Intent intent = new Intent(Profile.this, AddChangeInformation.class);
+                Intent intent = new Intent(v.getContext(), AddChangeInformation.class);
+
+                // передача информации о выбранном контакте
+                intent.putExtra("ID", -1);
+                intent.putExtra("Name", "");
+                intent.putExtra("Tellephone", "");
                 startActivity(intent);
             }
         });
@@ -120,13 +125,10 @@ public class Profile extends AppCompatActivity {
                         Intent intent = new Intent(this, AddChangeInformation.class);
 
                         // передача информации о выбранном контакте
-                        intent.putExtra("ID", Id);
+                        intent.putExtra("ID", Integer.parseInt(Id));
                         intent.putExtra("Name", Name);
                         intent.putExtra("Tellephone", PhoneNumber);
-                        intent.putExtra("Activity", "Import");
-
-                       startActivity(intent);
-                       setContentView(R.layout.add_change_information);
+                        startActivity(intent);
                     }
                     break;
 
