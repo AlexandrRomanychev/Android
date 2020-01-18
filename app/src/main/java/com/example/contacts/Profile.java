@@ -33,8 +33,8 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_profiles);
 
-        search = (SearchView)findViewById(R.id.search_profile);
-        sort = (Spinner)findViewById(R.id.spinner_sort);
+        search = findViewById(R.id.search_profile);
+        sort = findViewById(R.id.spinner_sort);
 
         // Создание кнопок добавления контактов и их обработчиков
         btn_import = findViewById(R.id.import_profile);

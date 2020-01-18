@@ -3,13 +3,10 @@ package com.example.contacts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -30,11 +27,11 @@ public class AddChangeInformation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_change_information);
 
-        surname = (EditText)findViewById(R.id.surname);
-        patronymic = (EditText)findViewById(R.id.patronymic);
-        birthday = (EditText)findViewById(R.id.birthday);
+        surname = findViewById(R.id.surname);
+        patronymic = findViewById(R.id.patronymic);
+        birthday = findViewById(R.id.birthday);
 
-        ImageProfile = (SimpleDraweeView) findViewById(R.id.image_human);
+        ImageProfile = findViewById(R.id.image_human);
         ImageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,8 +51,8 @@ public class AddChangeInformation extends AppCompatActivity {
             String Name = arguments.getString("Name");
             String PhoneNumber = arguments.getString("Tellephone");
 
-            name = (EditText) findViewById(R.id.name);
-            phone = (EditText) findViewById(R.id.phone);
+            name = findViewById(R.id.name);
+            phone = findViewById(R.id.phone);
 
             name.setText(Name);
             phone.setText(PhoneNumber);
