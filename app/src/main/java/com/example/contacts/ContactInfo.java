@@ -42,7 +42,7 @@ public class ContactInfo{
         nameAndDate.setOrientation(LinearLayout.VERTICAL);
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         nameAndDate.setLayoutParams(layoutParams);
         nameAndDate.setBackgroundColor(Color.WHITE);
         TextView name = new TextView(context);
@@ -56,13 +56,13 @@ public class ContactInfo{
 
         Uri imageUri = Uri.parse(this.contact.photo);
         SimpleDraweeView imageProfile = new SimpleDraweeView(context);
-        imageProfile.setMinimumWidth(150);
+        imageProfile.setMinimumWidth(200);
         imageProfile.setMinimumHeight(300);
         imageProfile.setImageURI(imageUri);
 
         Button delete = new Button(context);
-        delete.setLayoutParams(layoutParams);
         delete.setText("Удалить");
+        delete.setLayoutParams(layoutParams);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,8 +98,7 @@ public class ContactInfo{
         full.addView(imageProfile);
         full.addView(nameAndDate);
         full.addView(delete);
-
-        scroll.setPadding(0,0,0,50);
+        scroll.setLayoutParams(layoutParams);
         scroll.addView(full);
 
         return scroll;
