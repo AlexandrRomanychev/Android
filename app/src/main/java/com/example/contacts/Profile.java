@@ -14,12 +14,16 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SearchView;
+import android.widget.Spinner;
 
 public class Profile extends AppCompatActivity {
 
     private Button btn_import, btn_new;
     private ImageButton btn_add;
     private Boolean flag = false;
+    private SearchView search;
+    private Spinner sort;
 
     private static final int CONTACT_PICK_RESULT = 1;
     private static final int REQUEST_CODE_PERMISSION_READ_CONTACTS = 1;
@@ -28,6 +32,9 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_profiles);
+
+        search = (SearchView)findViewById(R.id.search_profile);
+        sort = (Spinner)findViewById(R.id.spinner_sort);
 
         // Создание кнопок добавления контактов и их обработчиков
         btn_import = findViewById(R.id.import_profile);
@@ -136,5 +143,25 @@ public class Profile extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    // сохранение состояния
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        outState.putString("searchSave", search.getQuery().toString());
+        outState.putInt("sortIndexSave", sort.getSelectedItemPosition());
+
+        super.onSaveInstanceState(outState);
+    }
+
+    // получение сохраненного состояния
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        search.setQuery(savedInstanceState.getString("searchSave"), true);
+        sort.setSelection(savedInstanceState.getInt("sortIndexSave"));
     }
 }
