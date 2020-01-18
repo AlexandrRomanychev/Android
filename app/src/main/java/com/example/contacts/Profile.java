@@ -27,9 +27,8 @@ public class Profile extends AppCompatActivity {
     @Override
     protected void onResume(){
         super.onResume();
-        AsyncAddContact add = new AsyncAddContact(Profile.this, MainActivity.db, new Contact("a","b","c","1","2"));
-        add.execute();
-        AsyncGetAllContact getAllContact = new AsyncGetAllContact(MainActivity.db);
+        final AppDatabase db = Room.databaseBuilder(Profile.this, AppDatabase.class, "contacts").build();
+        AsyncGetAllContact getAllContact = new AsyncGetAllContact(db);
         getAllContact.execute();
         contacts = getAllContact.getContacts();
     }
