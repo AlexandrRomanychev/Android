@@ -1,7 +1,6 @@
 package com.example.contacts;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.room.Room;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -13,13 +12,11 @@ import android.widget.ImageButton;
 
 import com.example.contacts.async.AsyncAddContact;
 import com.example.contacts.database.entity.Contact;
-import android.widget.EditText;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class AddChangeInformation extends AppCompatActivity {
 
-    private ImageButton image;
     private EditText surname, name, patronymic, phone, date;
     private Button save;
     static final int GALLERY_REQUEST = 1;
@@ -42,8 +39,10 @@ public class AddChangeInformation extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String uri = selectedImage == null? "" : selectedImage.toString();
                 new AsyncAddContact(MainActivity.db, new Contact(surname.getText().toString(), name.getText().toString(),
-                        patronymic.getText().toString(), date.getText().toString(), phone.getText().toString())).execute();
+                        patronymic.getText().toString(), date.getText().toString(), phone.getText().toString(),
+                        uri)).execute();
                 finish();
             }
         });
@@ -123,7 +122,6 @@ public class AddChangeInformation extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
         super.onRestoreInstanceState(savedInstanceState);
-
         surname.setText(savedInstanceState.getString("surnameSave"));
         name.setText(savedInstanceState.getString("nameSave"));
         patronymic.setText(savedInstanceState.getString("patronymicSave"));

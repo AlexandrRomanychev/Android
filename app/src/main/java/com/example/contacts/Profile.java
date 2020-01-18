@@ -33,16 +33,19 @@ public class Profile extends AppCompatActivity {
     public void showListOfProfiles(List<Contact> contacts){
         profiles.removeAllViews();
         for (Contact contact: contacts) {
-            ContactInfo contactInfo = new ContactInfo(Profile.this, contact.surname, contact.name,
-                    contact.patronymic, contact.date, contact.phone);
+            ContactInfo contactInfo = new ContactInfo(Profile.this, contact);
             profiles.addView(contactInfo.getView());
         }
+    }
+
+    public void refreshListOfContacts(){
+        new AsyncGetAllContact(MainActivity.db, Profile.this).execute();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        new AsyncGetAllContact(MainActivity.db, Profile.this).execute();
+        refreshListOfContacts();
     }
     private SearchView search;
     private Spinner sort;

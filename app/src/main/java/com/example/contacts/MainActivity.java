@@ -3,7 +3,6 @@ package com.example.contacts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import android.app.Application;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +12,6 @@ import com.example.contacts.async.AsyncCheckRegistryUser;
 import com.example.contacts.async.AsyncEnterUser;
 import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.entity.User;
-import com.facebook.drawee.backends.pipeline.Fresco;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,16 +48,6 @@ public class MainActivity extends AppCompatActivity {
                         Profile.class).execute();
             }
         });
-    }
-
-    public static class MyFresco extends Application {
-
-        @Override
-        public void onCreate() {
-            super.onCreate();
-            Fresco.initialize(this);
-
-        }
     }
 
     // сохранение состояния

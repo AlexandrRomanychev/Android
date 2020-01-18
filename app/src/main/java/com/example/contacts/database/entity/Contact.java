@@ -3,6 +3,7 @@ package com.example.contacts.database.entity;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import android.net.Uri;
 
 @Entity
 public class Contact {
@@ -24,12 +25,17 @@ public class Contact {
     @ColumnInfo(name = "date")
     public String date;
 
-    public Contact(String surname, String name, String patronymic, String date, String phone){
+    @ColumnInfo(name = "photo")
+    public String photo;
+
+    public Contact(String surname, String name, String patronymic, String date, String phone,
+                   String photo){
         this.surname = surname;
         this.name = name;
         this.patronymic = patronymic;
         this.date = date;
         this.phone = phone;
+        this.photo = photo;
     }
 
     public int getUid() {
@@ -78,5 +84,13 @@ public class Contact {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 }
