@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.entity.Contact;
 
+import java.util.List;
+
 public class AsyncAddContact  extends AsyncTask<Void, Void, Integer> {
 
     private final Context activity;
@@ -21,6 +23,7 @@ public class AsyncAddContact  extends AsyncTask<Void, Void, Integer> {
     @Override
     protected Integer doInBackground(Void... voids) {
         db.contactDao().insertAll(contact);
+        List<Contact> contacts = db.contactDao().getAll();
         return 1;
     }
 }

@@ -16,19 +16,20 @@ import com.example.contacts.database.entity.User;
 public class MainActivity extends AppCompatActivity {
 
     private EditText login, password;
+    public static AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        db = Room.inMemoryDatabaseBuilder(MainActivity.this, AppDatabase.class).build();
+
         login = findViewById(R.id.login);
         password = findViewById(R.id.password);
 
         Button enter = findViewById(R.id.authorization);
         Button registry = findViewById(R.id.registration);
-
-        final AppDatabase db = Room.inMemoryDatabaseBuilder(MainActivity.this, AppDatabase.class).build();
 
         enter.setOnClickListener(new View.OnClickListener() {
             @Override

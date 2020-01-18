@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.contacts.async.AsyncAddContact;
-import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.entity.Contact;
 
 public class AddChangeInformation extends AppCompatActivity {
@@ -32,13 +31,13 @@ public class AddChangeInformation extends AppCompatActivity {
 
         save = findViewById(R.id.save);
 
-        final AppDatabase db = Room.inMemoryDatabaseBuilder(AddChangeInformation.this, AppDatabase.class).build();
+       // final AppDatabase db = Room.inMemoryDatabaseBuilder(AddChangeInformation.this, AppDatabase.class).build();
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncAddContact(AddChangeInformation.this, db, new Contact(surname.getText().toString(), name.getText().toString(),
-                        patronymic.getText().toString(), date.getText().toString(), phone.getText().toString()));
+                new AsyncAddContact(AddChangeInformation.this, MainActivity.db, new Contact(surname.getText().toString(), name.getText().toString(),
+                        patronymic.getText().toString(), date.getText().toString(), phone.getText().toString())).execute();
                 finish();
             }
         });

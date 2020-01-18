@@ -1,6 +1,7 @@
 package com.example.contacts;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +9,30 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.example.contacts.async.AsyncAddContact;
+import com.example.contacts.async.AsyncGetAllContact;
+import com.example.contacts.database.AppDatabase;
+import com.example.contacts.database.dao.ContactDao;
+import com.example.contacts.database.entity.Contact;
+
+import java.util.List;
+
 public class Profile extends AppCompatActivity {
 
     private Button btn_import, btn_new;
     private ImageButton btn_add;
     private Boolean flag = false;
+    private List<Contact> contacts;
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        AsyncAddContact add = new AsyncAddContact(Profile.this, MainActivity.db, new Contact("a","b","c","1","2"));
+        add.execute();
+        AsyncGetAllContact getAllContact = new AsyncGetAllContact(MainActivity.db);
+        getAllContact.execute();
+        contacts = getAllContact.getContacts();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
