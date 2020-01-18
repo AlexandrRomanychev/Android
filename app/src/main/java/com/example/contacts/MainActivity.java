@@ -8,9 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.contacts.async.AsyncCheckRegistryUser;
-import com.example.contacts.async.AsyncEnterUser;
+import com.example.contacts.async.AsyncUserAction;
 import com.example.contacts.database.AppDatabase;
+import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.User;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,18 +34,18 @@ public class MainActivity extends AppCompatActivity {
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncEnterUser(MainActivity.this, db,
+                new AsyncUserAction(MainActivity.this, db,
                         new User(login.getText().toString(), password.getText().toString()),
-                        Profile.class).execute();
+                        Profile.class, DataBaseComands.USER_ENTER).execute();
             }
         });
 
         registry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncCheckRegistryUser(MainActivity.this, db,
+                new AsyncUserAction(MainActivity.this, db,
                         new User(login.getText().toString(), password.getText().toString()),
-                        Profile.class).execute();
+                        Profile.class, DataBaseComands.USER_CHECK_REGISTRY).execute();
             }
         });
     }

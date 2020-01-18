@@ -29,6 +29,11 @@ public class Profile extends AppCompatActivity {
     private ImageButton btn_add;
     private Boolean flag = false;
     private LinearLayout profiles;
+    private SearchView search;
+    private Spinner sort;
+
+    private static final int CONTACT_PICK_RESULT = 1;
+    private static final int REQUEST_CODE_PERMISSION_READ_CONTACTS = 1;
 
     public void showListOfProfiles(List<Contact> contacts){
         profiles.removeAllViews();
@@ -47,11 +52,6 @@ public class Profile extends AppCompatActivity {
         super.onResume();
         refreshListOfContacts();
     }
-    private SearchView search;
-    private Spinner sort;
-
-    private static final int CONTACT_PICK_RESULT = 1;
-    private static final int REQUEST_CODE_PERMISSION_READ_CONTACTS = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

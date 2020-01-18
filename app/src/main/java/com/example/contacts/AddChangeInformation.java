@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 
 import com.example.contacts.async.AsyncAddContact;
 import com.example.contacts.database.entity.Contact;
