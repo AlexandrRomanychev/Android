@@ -3,6 +3,7 @@ package com.example.contacts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,6 +13,7 @@ import com.example.contacts.async.AsyncCheckRegistryUser;
 import com.example.contacts.async.AsyncEnterUser;
 import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.entity.User;
+import com.facebook.drawee.backends.pipeline.Fresco;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,4 +50,35 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public static class MyFresco extends Application {
+
+        @Override
+        public void onCreate() {
+            super.onCreate();
+            Fresco.initialize(this);
+
+        }
+    }
+
+    // сохранение состояния
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        outState.putString("loginSave", login.getText().toString());
+        outState.putString("passwordSave", password.getText().toString());
+
+        super.onSaveInstanceState(outState);
+    }
+
+    // получение сохраненного состояния
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        login.setText(savedInstanceState.getString("loginSave"));
+        password.setText(savedInstanceState.getString("passwordSave"));
+    }
+
 }

@@ -28,4 +28,19 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'androidx.room:room-runtime:2.2.3'
     annotationProcessor 'androidx.room:room-compiler:2.2.3'
+    implementation 'com.facebook.fresco:fresco:2.0.0'
+
+    ///////////////////////////////////////////////////////////////////////////
+    // Для дополнительных возможностей. Вдруг понадобится. Если нет - удалим
+
+    // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:2.0.0'
+
+    // For WebP support, including animated WebP
+    implementation 'com.facebook.fresco:animated-webp:2.0.0'
+    implementation 'com.facebook.fresco:webpsupport:2.0.0'
+
+    // For WebP support, without animations
+    implementation 'com.facebook.fresco:webpsupport:2.0.0'
+
 }
