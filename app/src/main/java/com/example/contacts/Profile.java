@@ -8,11 +8,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.TextView;
 
-import com.example.contacts.async.AsyncAddContact;
 import com.example.contacts.async.AsyncGetAllContact;
 import com.example.contacts.database.AppDatabase;
-import com.example.contacts.database.dao.ContactDao;
 import com.example.contacts.database.entity.Contact;
 
 import java.util.List;
@@ -22,21 +23,32 @@ public class Profile extends AppCompatActivity {
     private Button btn_import, btn_new;
     private ImageButton btn_add;
     private Boolean flag = false;
-    private List<Contact> contacts;
+    private LinearLayout profiles;
+
+    public void showListOfProfiles(List<Contact> contacts){
+        for (Contact contact: contacts) {
+            TextView name = new TextView(this);
+            name.setText(contact.name);
+            profiles.addView(name);
+        }
+    }
+
+    private void getContacts(){
+        new AsyncGetAllContact(MainActivity.db, Profile.this).execute();
+    }
 
     @Override
     protected void onResume(){
         super.onResume();
-        final AppDatabase db = Room.databaseBuilder(Profile.this, AppDatabase.class, "contacts").build();
-        AsyncGetAllContact getAllContact = new AsyncGetAllContact(db);
-        getAllContact.execute();
-        contacts = getAllContact.getContacts();
+        getContacts();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_profiles);
+
+        profiles = findViewById(R.id.profiles);
 
         // Создание кнопок добавления контактов и их обработчиков
         btn_import = findViewById(R.id.import_profile);

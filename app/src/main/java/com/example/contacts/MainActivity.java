@@ -16,13 +16,14 @@ import com.example.contacts.database.entity.User;
 public class MainActivity extends AppCompatActivity {
 
     private EditText login, password;
+    public static AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final AppDatabase db = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "contacts").build();
+        db = Room.databaseBuilder(MainActivity.this, AppDatabase.class, "contacts").build();
 
         login = findViewById(R.id.login);
         password = findViewById(R.id.password);
