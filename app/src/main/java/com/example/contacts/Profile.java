@@ -9,11 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.contacts.async.AsyncGetAllContact;
-import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.entity.Contact;
 
 import java.util.List;
@@ -26,21 +24,18 @@ public class Profile extends AppCompatActivity {
     private LinearLayout profiles;
 
     public void showListOfProfiles(List<Contact> contacts){
+        profiles.removeAllViews();
         for (Contact contact: contacts) {
-            TextView name = new TextView(this);
-            name.setText(contact.name);
-            profiles.addView(name);
+            ContactInfo contactInfo = new ContactInfo(Profile.this, contact.surname, contact.name,
+                    contact.patronymic, contact.date, contact.phone);
+            profiles.addView(contactInfo.getView());
         }
-    }
-
-    private void getContacts(){
-        new AsyncGetAllContact(MainActivity.db, Profile.this).execute();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        getContacts();
+        new AsyncGetAllContact(MainActivity.db, Profile.this).execute();
     }
 
     @Override
