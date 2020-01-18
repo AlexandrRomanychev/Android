@@ -71,6 +71,5 @@ public class AsyncUserAction extends AsyncTask<Void, Void, Integer> {
                 break;
             }
         }
-
     }
 }
