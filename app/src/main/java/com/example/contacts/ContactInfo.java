@@ -1,13 +1,18 @@
 package com.example.contacts;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.Icon;
 import android.media.Image;
 import android.net.Uri;
+import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -17,6 +22,9 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+
 import com.example.contacts.async.AsyncDelContact;
 import com.example.contacts.async.AsyncGetAllContact;
 import com.example.contacts.database.entity.Contact;
@@ -25,17 +33,19 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.w3c.dom.Text;
 
-public class ContactInfo{
+public class ContactInfo {
 
     private Profile context;
     private Contact contact;
+
+    private static final int REQUEST_CODE_PERMISSION_CALL_PHONE= 1;
 
     public ContactInfo(Profile context, Contact contact) {
         this.context = context;
         this.contact = contact;
     }
 
-    public View getView(){
+    public View getView() {
         HorizontalScrollView scroll = new HorizontalScrollView(context);
         // Компонент, который содержит ФИО и дату
         LinearLayout nameAndDate = new LinearLayout(context);
@@ -47,7 +57,7 @@ public class ContactInfo{
         nameAndDate.setBackgroundColor(Color.WHITE);
         TextView name = new TextView(context);
         name.setTextSize(24);
-        name.setText(this.contact.surname+" "+this.contact.name+" "+this.contact.patronymic);
+        name.setText(this.contact.surname + " " + this.contact.name + " " + this.contact.patronymic);
         TextView date = new TextView(context);
         date.setTextSize(24);
         date.setText(this.contact.date);
@@ -87,6 +97,26 @@ public class ContactInfo{
             }
         });
 
+        Button call = new Button(context);
+        call.setText("Поздравить");
+        call.setLayoutParams(layoutParams);
+        call.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+
+                //Проверка на разрешение звонков
+                if (context.checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(context, new String[] {Manifest.permission.CALL_PHONE},
+                            REQUEST_CODE_PERMISSION_CALL_PHONE);
+                    return;
+                }
+                String toDial = "tel:" + contact.phone;
+                context.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(toDial)));
+            }
+        });
+
         // Компонент, который содержит фото и предыдущий компонент
         LinearLayout full = new LinearLayout(context);
         RelativeLayout.LayoutParams fullLayoutParams = new RelativeLayout.LayoutParams(
@@ -98,6 +128,7 @@ public class ContactInfo{
         full.addView(imageProfile);
         full.addView(nameAndDate);
         full.addView(delete);
+        full.addView(call);
         scroll.setLayoutParams(layoutParams);
         scroll.addView(full);
 
