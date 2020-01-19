@@ -71,6 +71,12 @@
             android:layout_marginTop="20dp"
             android:background="@android:color/white"
             android:layout_marginBottom="20dp"/>
+        <Button
+            android:id="@+id/exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Выход"/>
 
     </LinearLayout>
 

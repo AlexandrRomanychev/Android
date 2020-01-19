@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
         Button enter = findViewById(R.id.authorization);
         Button registry = findViewById(R.id.registration);
 
+        new AsyncUserAction(MainActivity.this, db, null, Profile.class, DataBaseComands.USER_GET_LOGINED).execute();
+
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

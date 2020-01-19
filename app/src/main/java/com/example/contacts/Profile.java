@@ -18,8 +18,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.contacts.async.AsyncContactAction;
+import com.example.contacts.async.AsyncUserAction;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
+import com.example.contacts.database.entity.User;
 
 import java.util.List;
 import android.widget.SearchView;
@@ -27,13 +29,14 @@ import android.widget.Spinner;
 
 public class Profile extends AppCompatActivity {
 
-    private Button btn_import, btn_new;
+    private Button btn_import, btn_new, exit;
     private ImageButton btn_add;
     private Boolean flag = false;
     private LinearLayout profiles;
     private SearchView search;
     private Spinner sort;
     private String rule = "%";
+    private String loginUser = "";
 
     private static final int CONTACT_PICK_RESULT = 1;
     private static final int REQUEST_CODE_PERMISSION_READ_CONTACTS = 1;
@@ -61,6 +64,10 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_profiles);
+
+        final Bundle arguments = getIntent().getExtras();
+        loginUser = arguments.getString("login");
+        this.setTitle("Вы авторизованы как: "+loginUser);
 
         profiles = findViewById(R.id.profiles);
         sort = findViewById(R.id.spinner_sort);
@@ -169,6 +176,15 @@ public class Profile extends AppCompatActivity {
                     btn_add.setBackgroundResource(R.drawable.img_button_add_profile_select_false);
                 }
                 flag = !flag;
+            }
+        });
+
+        exit = findViewById(R.id.exit);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AsyncUserAction(Profile.this, MainActivity.db, new User(loginUser, ""), MainActivity.class, DataBaseComands.USER_DELETE).execute();
+                finish();
             }
         });
     }

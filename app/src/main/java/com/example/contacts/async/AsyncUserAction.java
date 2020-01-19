@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.DataBaseComands;
+import com.example.contacts.database.entity.LogUser;
 import com.example.contacts.database.entity.User;
 
 public class AsyncUserAction extends AsyncTask<Void, Void, Integer> {
@@ -16,6 +17,7 @@ public class AsyncUserAction extends AsyncTask<Void, Void, Integer> {
     private final User user;
     private final Class nextPage;
     private DataBaseComands status;
+    private LogUser logUser;
 
     public AsyncUserAction(Context activity, AppDatabase db, User user, Class nextPage, DataBaseComands status){
         this.activity = activity;
@@ -36,11 +38,25 @@ public class AsyncUserAction extends AsyncTask<Void, Void, Integer> {
             }
             case USER_REGISTRY: {
                 db.userDao().insertAll(user);
+                break;
+            }
+            case USER_ADD:{
+                db.logUserDao().insertAll(new LogUser(user.getLogin(), user.getPassword()));
+                break;
+            }
+            case USER_GET_LOGINED:{
+                logUser = db.logUserDao().getLogUser();
+                break;
+            }
+            case USER_DELETE:{
+                db.logUserDao().deleteAll(user.getLogin());
+                break;
             }
             default: {
                 return 0;
             }
         }
+        return 0;
     }
 
     @Override
@@ -49,8 +65,9 @@ public class AsyncUserAction extends AsyncTask<Void, Void, Integer> {
             case USER_ENTER: {
                 if (result > 0) {
                     Toast.makeText(activity, "Успешный вход", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(activity, nextPage);
-                    activity.startActivity(intent);
+                    new AsyncUserAction(activity, db, user, nextPage, DataBaseComands.USER_ADD).execute();
+                    /*Intent intent = new Intent(activity, nextPage);
+                    activity.startActivity(intent);*/
                 } else {
                     Toast.makeText(activity, "Неверный логин/пароль", Toast.LENGTH_SHORT).show();
                 }
@@ -66,8 +83,24 @@ public class AsyncUserAction extends AsyncTask<Void, Void, Integer> {
             }
             case USER_REGISTRY:{
                 Toast.makeText(activity, "Успешная регистрация", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(activity, nextPage);
-                activity.startActivity(intent);
+                new AsyncUserAction(activity, db, user, nextPage, DataBaseComands.USER_ADD).execute();
+                /*Intent intent = new Intent(activity, nextPage);
+                activity.startActivity(intent);*/
+                break;
+            }
+            case USER_GET_LOGINED:{
+                if (logUser != null){
+                    Intent intent = new Intent(activity, nextPage);
+                    intent.putExtra("login", logUser.getLogin());
+                    activity.startActivity(intent);
+                }
+                break;
+            }
+            case USER_ADD:{
+                new AsyncUserAction(activity, db, user, nextPage, DataBaseComands.USER_GET_LOGINED).execute();
+                /*Intent intent = new Intent(activity, nextPage);
+                intent.putExtra("login", logUser.getLogin());
+                activity.startActivity(intent);*/
                 break;
             }
         }

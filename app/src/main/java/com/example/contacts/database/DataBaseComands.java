@@ -3,6 +3,9 @@ package com.example.contacts.database;
 public enum DataBaseComands {
     USER_ENTER,
     USER_REGISTRY,
+    USER_ADD,
+    USER_DELETE,
+    USER_GET_LOGINED,
     USER_CHECK_REGISTRY,
     CONTACT_ADD,
     CONTACT_DELETE,
