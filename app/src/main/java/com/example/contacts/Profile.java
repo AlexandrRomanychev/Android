@@ -81,6 +81,14 @@ public class Profile extends AppCompatActivity {
                         new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_NAME_DOWN).execute();
                         break;
                     }
+                    case 3:{
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_DATE_UP).execute();
+                        break;
+                    }
+                    case 4:{
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_DATE_DOWN).execute();
+                        break;
+                    }
                 }
             }
 

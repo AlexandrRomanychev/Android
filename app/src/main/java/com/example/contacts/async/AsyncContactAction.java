@@ -51,6 +51,14 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
                 contacts = db.contactDao().getSortedByNameDown();
                 break;
             }
+            case CONTACT_SORT_DATE_UP:{
+                contacts = db.contactDao().getSortedByDateUp();
+                break;
+            }
+            case CONTACT_SORT_DATE_DOWN:{
+                contacts = db.contactDao().getSortedByDateDown();
+                break;
+            }
         }
         return 1;
     }
@@ -60,7 +68,9 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
         switch (status){
             case CONTACT_GET_ALL:
             case CONTACT_SORT_NAME_UP:
-            case CONTACT_SORT_NAME_DOWN:{
+            case CONTACT_SORT_NAME_DOWN:
+            case CONTACT_SORT_DATE_UP:
+            case CONTACT_SORT_DATE_DOWN:{
                 activity.showListOfProfiles(this.contacts);
             }
         }

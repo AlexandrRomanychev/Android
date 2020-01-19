@@ -21,8 +21,14 @@ public interface ContactDao {
     @Query("SELECT * FROM contact ORDER BY name DESC")
     List<Contact> getSortedByNameDown();
 
+    @Query("SELECT * FROM contact ORDER BY date ASC")
+    List<Contact> getSortedByDateUp();
+
+    @Query("SELECT * FROM contact ORDER BY date DESC")
+    List<Contact> getSortedByDateDown();
+
     @Query("SELECT * FROM contact WHERE uid IN (:contactIds)")
-    List<User> loadAllByIds(int[] contactIds);
+    List<Contact> loadAllByIds(int[] contactIds);
 
     @Insert
     void insertAll(Contact... contacts);
