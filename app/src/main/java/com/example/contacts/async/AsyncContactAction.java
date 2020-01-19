@@ -59,6 +59,9 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
                 contacts = db.contactDao().getSortedByDateDown();
                 break;
             }
+            case CONTACT_UPDATE:{
+                db.contactDao().updateContact(contact.name, contact.date, contact.phone, contact.photo, new int[]{contact.uid});
+            }
         }
         return 1;
     }

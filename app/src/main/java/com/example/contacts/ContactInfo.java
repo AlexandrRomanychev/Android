@@ -2,6 +2,7 @@ package com.example.contacts;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.View;
@@ -104,6 +105,20 @@ public class ContactInfo{
         full.addView(generateLocalImage());
         full.addView(nameAndDate);
         full.addView(generateLocalDeleteButton("Удалить"));
+
+        full.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, AddChangeInformation.class);
+                intent.putExtra("Name", contact.name);
+                intent.putExtra("Tellephone", contact.phone);
+                intent.putExtra("date", contact.date);
+                intent.putExtra("photo", contact.photo);
+                intent.putExtra("status", "update");
+                intent.putExtra("id", contact.uid);
+                context.startActivity(intent);
+            }
+        });
 
         scroll.setLayoutParams(layoutParams);
         scroll.addView(full);

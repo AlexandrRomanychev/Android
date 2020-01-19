@@ -28,6 +28,14 @@ public class Contact {
         this.phone = phone;
         this.photo = photo;
     }
+    public Contact(String name, String date, String phone,
+                   String photo, int id){
+        this.name = name;
+        this.date = date;
+        this.phone = phone;
+        this.photo = photo;
+        this.uid = id;
+    }
 
     public int getUid() {
         return uid;

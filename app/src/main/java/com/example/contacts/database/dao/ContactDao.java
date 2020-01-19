@@ -30,6 +30,9 @@ public interface ContactDao {
     @Query("SELECT * FROM contact WHERE uid IN (:contactIds)")
     List<Contact> loadAllByIds(int[] contactIds);
 
+    @Query("UPDATE contact SET name = :name, date = :date, phone = :phone, photo = :photo WHERE uid IN (:contactIds)")
+    void updateContact(String name, String date, String phone, String photo, int[] contactIds);
+
     @Insert
     void insertAll(Contact... contacts);
 

@@ -18,30 +18,46 @@ import com.facebook.drawee.view.SimpleDraweeView;
 public class AddChangeInformation extends AppCompatActivity {
 
     private EditText name, phone, date;
-    private Button save;
     static final int GALLERY_REQUEST = 1;
     private SimpleDraweeView ImageProfile;
     private Uri selectedImage = null;
+    private DataBaseComands status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        status = DataBaseComands.CONTACT_ADD;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_change_information);
+
+        // Получаю все аргументы
+        final Bundle arguments = getIntent().getExtras();
 
         name = findViewById(R.id.name);
         phone = findViewById(R.id.phone);
         date = findViewById(R.id.birthday);
 
-        save = findViewById(R.id.save);
+        Button save = findViewById(R.id.save);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String uri = selectedImage == null? "" : selectedImage.toString();
-                new AsyncContactAction(MainActivity.db, null,
-                        new Contact( name.getText().toString(),
-                        date.getText().toString(), phone.getText().toString(),
-                        uri), "%", DataBaseComands.CONTACT_ADD).execute();
+                switch (status){
+                    case CONTACT_ADD:{
+                        new AsyncContactAction(MainActivity.db, null,
+                                new Contact( name.getText().toString(),
+                                        date.getText().toString(), phone.getText().toString(),
+                                        uri), "%", DataBaseComands.CONTACT_ADD).execute();
+                        break;
+                    }
+                    case CONTACT_UPDATE:{
+                        new AsyncContactAction(MainActivity.db, null,
+                                new Contact( name.getText().toString(),
+                                        date.getText().toString(), phone.getText().toString(),
+                                        uri, arguments.getInt("id")), "%", DataBaseComands.CONTACT_UPDATE).execute();
+                        break;
+                    }
+                }
                 finish();
             }
         });
@@ -57,20 +73,20 @@ public class AddChangeInformation extends AppCompatActivity {
             }
         });
 
-        // Получаю все аргументы
-        Bundle arguments = getIntent().getExtras();
+
 
         // Подставляем данные в TextView профиля
         if (arguments != null)
         {
-            String Name = arguments.getString("Name");
-            String PhoneNumber = arguments.getString("Tellephone");
-
-            name = findViewById(R.id.name);
-            phone = findViewById(R.id.phone);
-
-            name.setText(Name);
-            phone.setText(PhoneNumber);
+            name.setText(arguments.getString("Name"));
+            phone.setText(arguments.getString("Tellephone"));
+            date.setText(arguments.getString("date"));
+            if (arguments.getString("photo") != null)
+                ImageProfile.setImageURI(Uri.parse(arguments.getString("photo")));
+            String contactStatus = arguments.getString("status");
+            if (contactStatus != null){
+                status = DataBaseComands.CONTACT_UPDATE;
+            }
         }
 
         // Востановление аватарки при повороте
