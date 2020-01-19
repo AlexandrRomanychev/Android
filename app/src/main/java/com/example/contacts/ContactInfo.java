@@ -86,9 +86,9 @@ public class ContactInfo{
         LinearLayout nameAndDate = new LinearLayout(context);
         nameAndDate.setOrientation(LinearLayout.VERTICAL);
 
-        /*LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);*/
-        //nameAndDate.setLayoutParams(layoutParams);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        nameAndDate.setLayoutParams(layoutParams);
         nameAndDate.setBackgroundColor(Color.WHITE);
 
         nameAndDate.addView(generateLocalTextView(this.contact.name));
@@ -113,7 +113,7 @@ public class ContactInfo{
         full.addView(horizontalScrollView);
         full.addView(generateLocalDeleteButton("Удалить"));
 
-        full.setOnClickListener(new View.OnClickListener() {
+        nameAndDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AddChangeInformation.class);
