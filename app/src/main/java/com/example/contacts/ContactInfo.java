@@ -55,7 +55,7 @@ public class ContactInfo{
         nameAndDate.setLayoutParams(layoutParams);
         nameAndDate.setBackgroundColor(Color.WHITE);
 
-        nameAndDate.addView(generateLocalTextView(this.contact.surname+" "+this.contact.name+" "+this.contact.patronymic));
+        nameAndDate.addView(generateLocalTextView(this.contact.name));
         nameAndDate.addView(generateLocalTextView(this.contact.date));
 
         Button delete = new Button(context);

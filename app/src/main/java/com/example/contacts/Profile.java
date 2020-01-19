@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -63,6 +64,27 @@ public class Profile extends AppCompatActivity {
 
         profiles = findViewById(R.id.profiles);
         sort = findViewById(R.id.spinner_sort);
+
+        sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:{
+                        refreshListOfContacts("%");
+                        break;
+                    }
+                    case 1: {
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_NAME_UP).execute();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                refreshListOfContacts("%");
+            }
+        });
 
         search = findViewById(R.id.search_profile);
 

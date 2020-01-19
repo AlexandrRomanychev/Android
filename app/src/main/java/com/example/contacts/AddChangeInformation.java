@@ -17,7 +17,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 public class AddChangeInformation extends AppCompatActivity {
 
-    private EditText surname, name, patronymic, phone, date;
+    private EditText name, phone, date;
     private Button save;
     static final int GALLERY_REQUEST = 1;
     private SimpleDraweeView ImageProfile;
@@ -28,9 +28,7 @@ public class AddChangeInformation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_change_information);
 
-        surname = findViewById(R.id.surname);
         name = findViewById(R.id.name);
-        patronymic = findViewById(R.id.patronymic);
         phone = findViewById(R.id.phone);
         date = findViewById(R.id.birthday);
 
@@ -41,8 +39,8 @@ public class AddChangeInformation extends AppCompatActivity {
             public void onClick(View v) {
                 String uri = selectedImage == null? "" : selectedImage.toString();
                 new AsyncContactAction(MainActivity.db, null,
-                        new Contact(surname.getText().toString(), name.getText().toString(),
-                        patronymic.getText().toString(), date.getText().toString(), phone.getText().toString(),
+                        new Contact( name.getText().toString(),
+                        date.getText().toString(), phone.getText().toString(),
                         uri), "%", DataBaseComands.CONTACT_ADD).execute();
                 finish();
             }
@@ -104,9 +102,7 @@ public class AddChangeInformation extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
-        outState.putString("surnameSave", surname.getText().toString());
         outState.putString("nameSave", name.getText().toString());
-        outState.putString("patronymicSave", patronymic.getText().toString());
         outState.putString("birthdaySave", date.getText().toString());
         outState.putString("phoneSave", phone.getText().toString());
 
@@ -123,9 +119,7 @@ public class AddChangeInformation extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
         super.onRestoreInstanceState(savedInstanceState);
-        surname.setText(savedInstanceState.getString("surnameSave"));
         name.setText(savedInstanceState.getString("nameSave"));
-        patronymic.setText(savedInstanceState.getString("patronymicSave"));
         date.setText(savedInstanceState.getString("birthdaySave"));
         phone.setText(savedInstanceState.getString("phoneSave"));
     }

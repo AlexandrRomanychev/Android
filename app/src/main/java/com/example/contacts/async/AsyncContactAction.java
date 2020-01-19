@@ -43,6 +43,9 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
                 contacts = db.contactDao().getAll(rule);
                 break;
             }
+            case CONTACT_SORT_NAME_UP:{
+                contacts = db.contactDao().getSortedByNameUp();
+            }
         }
         return 1;
     }
@@ -50,7 +53,8 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
     @Override
     protected void onPostExecute(Integer result) {
         switch (status){
-            case CONTACT_GET_ALL:{
+            case CONTACT_GET_ALL:
+            case CONTACT_SORT_NAME_UP:{
                 activity.showListOfProfiles(this.contacts);
             }
         }
