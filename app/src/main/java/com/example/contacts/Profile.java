@@ -51,7 +51,7 @@ public class Profile extends AppCompatActivity {
 
     public void refreshListOfContacts(String rule){
         new AsyncContactAction(MainActivity.db, Profile.this, null,  rule,
-                DataBaseComands.CONTACT_GET_ALL).execute();
+                DataBaseComands.CONTACT_GET_ALL, loginUser).execute();
     }
 
     @Override
@@ -81,19 +81,19 @@ public class Profile extends AppCompatActivity {
                         break;
                     }
                     case 1: {
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_NAME_UP).execute();
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_NAME_UP, loginUser).execute();
                         break;
                     }
                     case 2:{
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_NAME_DOWN).execute();
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_NAME_DOWN, loginUser).execute();
                         break;
                     }
                     case 3:{
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_DATE_UP).execute();
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_DATE_UP, loginUser).execute();
                         break;
                     }
                     case 4:{
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_DATE_DOWN).execute();
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_DATE_DOWN, loginUser).execute();
                         break;
                     }
                 }
@@ -156,6 +156,7 @@ public class Profile extends AppCompatActivity {
                 intent.putExtra("ID", -1);
                 intent.putExtra("Name", "");
                 intent.putExtra("Tellephone", "");
+                intent.putExtra("login", loginUser);
                 startActivity(intent);
             }
         });
@@ -230,6 +231,7 @@ public class Profile extends AppCompatActivity {
                         intent.putExtra("ID", Integer.parseInt(Id));
                         intent.putExtra("Name", Name);
                         intent.putExtra("Tellephone", PhoneNumber);
+                        intent.putExtra("login", loginUser);
                         startActivity(intent);
                     }
                     break;

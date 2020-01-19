@@ -52,7 +52,7 @@ public class ContactInfo{
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked OK button
                 new AsyncContactAction(MainActivity.db, null, contact, "%",
-                        DataBaseComands.CONTACT_DELETE).execute();
+                        DataBaseComands.CONTACT_DELETE, contact.getLogin()).execute();
                 context.refreshListOfContacts("%");
             }
         });

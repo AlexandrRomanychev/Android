@@ -21,20 +21,25 @@ public class Contact {
     @ColumnInfo(name = "photo")
     public String photo;
 
+    @ColumnInfo(name = "login")
+    public String login;
+
     public Contact(String name, String date, String phone,
-                   String photo){
+                   String photo, String login){
         this.name = name;
         this.date = date;
         this.phone = phone;
         this.photo = photo;
+        this.login = login;
     }
     public Contact(String name, String date, String phone,
-                   String photo, int id){
+                   String photo, int id, String login){
         this.name = name;
         this.date = date;
         this.phone = phone;
         this.photo = photo;
         this.uid = id;
+        this.login = login;
     }
 
     public int getUid() {
@@ -75,5 +80,13 @@ public class Contact {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 }

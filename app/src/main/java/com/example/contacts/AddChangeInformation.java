@@ -22,6 +22,7 @@ public class AddChangeInformation extends AppCompatActivity {
     private SimpleDraweeView ImageProfile;
     private Uri selectedImage = null;
     private DataBaseComands status;
+    private String userLogin = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class AddChangeInformation extends AppCompatActivity {
 
         // Получаю все аргументы
         final Bundle arguments = getIntent().getExtras();
+        userLogin = arguments.getString("login");
 
         name = findViewById(R.id.name);
         phone = findViewById(R.id.phone);
@@ -47,14 +49,14 @@ public class AddChangeInformation extends AppCompatActivity {
                         new AsyncContactAction(MainActivity.db, null,
                                 new Contact( name.getText().toString(),
                                         date.getText().toString(), phone.getText().toString(),
-                                        uri), "%", DataBaseComands.CONTACT_ADD).execute();
+                                        uri, userLogin), "%", DataBaseComands.CONTACT_ADD, userLogin).execute();
                         break;
                     }
                     case CONTACT_UPDATE:{
                         new AsyncContactAction(MainActivity.db, null,
                                 new Contact( name.getText().toString(),
                                         date.getText().toString(), phone.getText().toString(),
-                                        uri, arguments.getInt("id")), "%", DataBaseComands.CONTACT_UPDATE).execute();
+                                        uri, arguments.getInt("id"), userLogin), "%", DataBaseComands.CONTACT_UPDATE, userLogin).execute();
                         break;
                     }
                 }

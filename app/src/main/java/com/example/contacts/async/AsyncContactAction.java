@@ -18,14 +18,16 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
     private final String rule;
     private List<Contact> contacts;
     private final Profile activity;
+    private String login;
 
-    public AsyncContactAction(AppDatabase db, Profile activity, Contact contact, String rule, DataBaseComands status){
+    public AsyncContactAction(AppDatabase db, Profile activity, Contact contact, String rule, DataBaseComands status, String login){
         this.db = db;
         this.contact = contact;
         this.status = status;
         this.activity = activity;
         this.rule = rule;
         this.contacts = new ArrayList<>();
+        this.login = login;
     }
 
     @Override
@@ -40,27 +42,27 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
                 break;
             }
             case CONTACT_GET_ALL:{
-                contacts = db.contactDao().getAll(rule);
+                contacts = db.contactDao().getAll(rule, login);
                 break;
             }
             case CONTACT_SORT_NAME_UP:{
-                contacts = db.contactDao().getSortedByNameUp();
+                contacts = db.contactDao().getSortedByNameUp(login);
                 break;
             }
             case CONTACT_SORT_NAME_DOWN:{
-                contacts = db.contactDao().getSortedByNameDown();
+                contacts = db.contactDao().getSortedByNameDown(login);
                 break;
             }
             case CONTACT_SORT_DATE_UP:{
-                contacts = db.contactDao().getSortedByDateUp();
+                contacts = db.contactDao().getSortedByDateUp(login);
                 break;
             }
             case CONTACT_SORT_DATE_DOWN:{
-                contacts = db.contactDao().getSortedByDateDown();
+                contacts = db.contactDao().getSortedByDateDown(login);
                 break;
             }
             case CONTACT_UPDATE:{
-                db.contactDao().updateContact(contact.name, contact.date, contact.phone, contact.photo, new int[]{contact.uid});
+                db.contactDao().updateContact(contact.name, contact.date, contact.phone, contact.photo, new int[]{contact.uid}, login);
             }
         }
         return 1;
