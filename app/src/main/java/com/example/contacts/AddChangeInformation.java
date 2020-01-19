@@ -6,19 +6,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+
+import com.example.contacts.async.AsyncAddContact;
+import com.example.contacts.database.entity.Contact;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class AddChangeInformation extends AppCompatActivity {
 
+    private EditText surname, name, patronymic, phone, date;
+    private Button save;
     static final int GALLERY_REQUEST = 1;
-
-    private EditText surname;
-    private EditText name;
-    private EditText patronymic;
-    private EditText phone;
-    private EditText birthday;
     private SimpleDraweeView ImageProfile;
     private Uri selectedImage = null;
 
@@ -28,8 +28,23 @@ public class AddChangeInformation extends AppCompatActivity {
         setContentView(R.layout.add_change_information);
 
         surname = findViewById(R.id.surname);
+        name = findViewById(R.id.name);
         patronymic = findViewById(R.id.patronymic);
-        birthday = findViewById(R.id.birthday);
+        phone = findViewById(R.id.phone);
+        date = findViewById(R.id.birthday);
+
+        save = findViewById(R.id.save);
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String uri = selectedImage == null? "" : selectedImage.toString();
+                new AsyncAddContact(MainActivity.db, new Contact(surname.getText().toString(), name.getText().toString(),
+                        patronymic.getText().toString(), date.getText().toString(), phone.getText().toString(),
+                        uri)).execute();
+                finish();
+            }
+        });
 
         ImageProfile = findViewById(R.id.image_human);
         ImageProfile.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +105,7 @@ public class AddChangeInformation extends AppCompatActivity {
         outState.putString("surnameSave", surname.getText().toString());
         outState.putString("nameSave", name.getText().toString());
         outState.putString("patronymicSave", patronymic.getText().toString());
-        outState.putString("birthdaySave", birthday.getText().toString());
+        outState.putString("birthdaySave", date.getText().toString());
         outState.putString("phoneSave", phone.getText().toString());
 
         if (selectedImage != null)
@@ -106,11 +121,10 @@ public class AddChangeInformation extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
         super.onRestoreInstanceState(savedInstanceState);
-
         surname.setText(savedInstanceState.getString("surnameSave"));
         name.setText(savedInstanceState.getString("nameSave"));
         patronymic.setText(savedInstanceState.getString("patronymicSave"));
-        birthday.setText(savedInstanceState.getString("birthdaySave"));
+        date.setText(savedInstanceState.getString("birthdaySave"));
         phone.setText(savedInstanceState.getString("phoneSave"));
     }
 }

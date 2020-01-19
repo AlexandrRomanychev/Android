@@ -14,6 +14,12 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+
+import com.example.contacts.async.AsyncGetAllContact;
+import com.example.contacts.database.entity.Contact;
+
+import java.util.List;
 import android.widget.SearchView;
 import android.widget.Spinner;
 
@@ -22,17 +28,37 @@ public class Profile extends AppCompatActivity {
     private Button btn_import, btn_new;
     private ImageButton btn_add;
     private Boolean flag = false;
+    private LinearLayout profiles;
     private SearchView search;
     private Spinner sort;
 
     private static final int CONTACT_PICK_RESULT = 1;
     private static final int REQUEST_CODE_PERMISSION_READ_CONTACTS = 1;
 
+    public void showListOfProfiles(List<Contact> contacts){
+        profiles.removeAllViews();
+        for (Contact contact: contacts) {
+            ContactInfo contactInfo = new ContactInfo(Profile.this, contact);
+            profiles.addView(contactInfo.getView());
+        }
+    }
+
+    public void refreshListOfContacts(){
+        new AsyncGetAllContact(MainActivity.db, Profile.this).execute();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        refreshListOfContacts();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_profiles);
 
+        profiles = findViewById(R.id.profiles);
         search = findViewById(R.id.search_profile);
         sort = findViewById(R.id.spinner_sort);
 
