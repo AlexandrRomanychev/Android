@@ -44,6 +44,41 @@ public class ContactInfo{
         return imageProfile;
     }
 
+    private AlertDialog generateLocalDeleteDialog(String text){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(text);
+        builder.setPositiveButton("ДА", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked OK button
+                new AsyncContactAction(MainActivity.db, null, contact, "%",
+                        DataBaseComands.CONTACT_DELETE).execute();
+                context.refreshListOfContacts("%");
+            }
+        });
+        builder.setNegativeButton("НЕТ", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+        return builder.create();
+    }
+
+    private Button generateLocalDeleteButton(String text){
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        Button delete = new Button(this.context);
+        delete.setText(text);
+        delete.setLayoutParams(layoutParams);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog dialog = generateLocalDeleteDialog("Вы действительно хотите удалить контакт?");
+                dialog.show();
+            }
+        });
+        return delete;
+    }
+
     public View getView(){
         HorizontalScrollView scroll = new HorizontalScrollView(context);
         // Компонент, который содержит ФИО и дату
@@ -58,34 +93,6 @@ public class ContactInfo{
         nameAndDate.addView(generateLocalTextView(this.contact.name));
         nameAndDate.addView(generateLocalTextView(this.contact.date));
 
-        Button delete = new Button(context);
-        delete.setText("Удалить");
-        delete.setLayoutParams(layoutParams);
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
-// Add the buttons
-                builder.setTitle("Вы действительно хотите удалить контакт?");
-                builder.setPositiveButton("ДА", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User clicked OK button
-                        new AsyncContactAction(MainActivity.db, null, contact, "%",
-                                DataBaseComands.CONTACT_DELETE).execute();
-                        context.refreshListOfContacts("%");
-                    }
-                });
-                builder.setNegativeButton("НЕТ", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
-        });
-
         // Компонент, который содержит фото и предыдущий компонент
         LinearLayout full = new LinearLayout(context);
         RelativeLayout.LayoutParams fullLayoutParams = new RelativeLayout.LayoutParams(
@@ -96,7 +103,8 @@ public class ContactInfo{
 
         full.addView(generateLocalImage());
         full.addView(nameAndDate);
-        full.addView(delete);
+        full.addView(generateLocalDeleteButton("Удалить"));
+
         scroll.setLayoutParams(layoutParams);
         scroll.addView(full);
 
