@@ -16,6 +16,8 @@ import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import org.w3c.dom.Text;
+
 public class ContactInfo{
 
     private Profile context;
@@ -24,6 +26,22 @@ public class ContactInfo{
     public ContactInfo(Profile context, Contact contact) {
         this.context = context;
         this.contact = contact;
+    }
+
+    private TextView generateLocalTextView(String text){
+        TextView textView = new TextView(this.context);
+        textView.setText(text);
+        textView.setTextSize(24);
+        return textView;
+    }
+
+    private SimpleDraweeView generateLocalImage(){
+        Uri imageUri = Uri.parse(this.contact.photo);
+        SimpleDraweeView imageProfile = new SimpleDraweeView(context);
+        imageProfile.setMinimumWidth(200);
+        imageProfile.setMinimumHeight(300);
+        imageProfile.setImageURI(imageUri);
+        return imageProfile;
     }
 
     public View getView(){
@@ -36,20 +54,9 @@ public class ContactInfo{
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
         nameAndDate.setLayoutParams(layoutParams);
         nameAndDate.setBackgroundColor(Color.WHITE);
-        TextView name = new TextView(context);
-        name.setTextSize(24);
-        name.setText(this.contact.surname+" "+this.contact.name+" "+this.contact.patronymic);
-        TextView date = new TextView(context);
-        date.setTextSize(24);
-        date.setText(this.contact.date);
-        nameAndDate.addView(name);
-        nameAndDate.addView(date);
 
-        Uri imageUri = Uri.parse(this.contact.photo);
-        SimpleDraweeView imageProfile = new SimpleDraweeView(context);
-        imageProfile.setMinimumWidth(200);
-        imageProfile.setMinimumHeight(300);
-        imageProfile.setImageURI(imageUri);
+        nameAndDate.addView(generateLocalTextView(this.contact.surname+" "+this.contact.name+" "+this.contact.patronymic));
+        nameAndDate.addView(generateLocalTextView(this.contact.date));
 
         Button delete = new Button(context);
         delete.setText("Удалить");
@@ -87,7 +94,7 @@ public class ContactInfo{
         full.setOrientation(LinearLayout.HORIZONTAL);
         full.setLayoutParams(fullLayoutParams);
 
-        full.addView(imageProfile);
+        full.addView(generateLocalImage());
         full.addView(nameAndDate);
         full.addView(delete);
         scroll.setLayoutParams(layoutParams);
