@@ -1,29 +1,20 @@
 package com.example.contacts;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.Icon;
-import android.media.Image;
 import android.net.Uri;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.example.contacts.async.AsyncDelContact;
-import com.example.contacts.async.AsyncGetAllContact;
+import com.example.contacts.async.AsyncContactAction;
+import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import org.w3c.dom.Text;
 
 public class ContactInfo{
 
@@ -72,7 +63,8 @@ public class ContactInfo{
                 builder.setPositiveButton("ДА", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
-                        new AsyncDelContact(MainActivity.db, contact).execute();
+                        new AsyncContactAction(MainActivity.db, null, contact, "%",
+                                DataBaseComands.CONTACT_DELETE).execute();
                         context.refreshListOfContacts("%");
                     }
                 });

@@ -16,7 +16,8 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import com.example.contacts.async.AsyncGetAllContact;
+import com.example.contacts.async.AsyncContactAction;
+import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 
 import java.util.List;
@@ -45,7 +46,8 @@ public class Profile extends AppCompatActivity {
     }
 
     public void refreshListOfContacts(String rule){
-        new AsyncGetAllContact(MainActivity.db, Profile.this, rule).execute();
+        new AsyncContactAction(MainActivity.db, Profile.this, null,  rule,
+                DataBaseComands.CONTACT_GET_ALL).execute();
     }
 
     @Override

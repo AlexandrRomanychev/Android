@@ -9,7 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.contacts.async.AsyncAddContact;
+import com.example.contacts.async.AsyncContactAction;
+import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -39,9 +40,10 @@ public class AddChangeInformation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String uri = selectedImage == null? "" : selectedImage.toString();
-                new AsyncAddContact(MainActivity.db, new Contact(surname.getText().toString(), name.getText().toString(),
+                new AsyncContactAction(MainActivity.db, null,
+                        new Contact(surname.getText().toString(), name.getText().toString(),
                         patronymic.getText().toString(), date.getText().toString(), phone.getText().toString(),
-                        uri)).execute();
+                        uri), "%", DataBaseComands.CONTACT_ADD).execute();
                 finish();
             }
         });
