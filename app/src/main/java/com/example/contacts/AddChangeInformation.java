@@ -41,7 +41,7 @@ public class AddChangeInformation extends AppCompatActivity {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uri = selectedImage == null? "" : selectedImage.toString();
+                String uri = selectedImage == null? arguments.getString("photo") == null? "" : arguments.getString("photo") : selectedImage.toString();
                 switch (status){
                     case CONTACT_ADD:{
                         new AsyncContactAction(MainActivity.db, null,

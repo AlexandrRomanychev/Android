@@ -66,9 +66,10 @@ public class ContactInfo{
 
     private Button generateLocalDeleteButton(String text){
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         Button delete = new Button(this.context);
         delete.setText(text);
+        delete.setTextSize(8);
         delete.setLayoutParams(layoutParams);
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,18 +82,24 @@ public class ContactInfo{
     }
 
     public View getView(){
-        HorizontalScrollView scroll = new HorizontalScrollView(context);
         // Компонент, который содержит ФИО и дату
         LinearLayout nameAndDate = new LinearLayout(context);
         nameAndDate.setOrientation(LinearLayout.VERTICAL);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        nameAndDate.setLayoutParams(layoutParams);
+        /*LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);*/
+        //nameAndDate.setLayoutParams(layoutParams);
         nameAndDate.setBackgroundColor(Color.WHITE);
 
         nameAndDate.addView(generateLocalTextView(this.contact.name));
         nameAndDate.addView(generateLocalTextView(this.contact.date));
+
+        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        layoutParams1.weight = 0.1f;
+        HorizontalScrollView horizontalScrollView = new HorizontalScrollView(context);
+        horizontalScrollView.setLayoutParams(layoutParams1);
+        horizontalScrollView.addView(nameAndDate);
 
         // Компонент, который содержит фото и предыдущий компонент
         LinearLayout full = new LinearLayout(context);
@@ -103,7 +110,7 @@ public class ContactInfo{
         full.setLayoutParams(fullLayoutParams);
 
         full.addView(generateLocalImage());
-        full.addView(nameAndDate);
+        full.addView(horizontalScrollView);
         full.addView(generateLocalDeleteButton("Удалить"));
 
         full.setOnClickListener(new View.OnClickListener() {
@@ -120,9 +127,9 @@ public class ContactInfo{
             }
         });
 
-        scroll.setLayoutParams(layoutParams);
-        scroll.addView(full);
+        //scroll.setLayoutParams(layoutParams);
+        //scroll.addView(full);
 
-        return scroll;
+        return full;
     }
 }
