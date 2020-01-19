@@ -31,6 +31,7 @@ public class Profile extends AppCompatActivity {
     private LinearLayout profiles;
     private SearchView search;
     private Spinner sort;
+    private String rule = "%";
 
     private static final int CONTACT_PICK_RESULT = 1;
     private static final int REQUEST_CODE_PERMISSION_READ_CONTACTS = 1;
@@ -43,14 +44,14 @@ public class Profile extends AppCompatActivity {
         }
     }
 
-    public void refreshListOfContacts(){
-        new AsyncGetAllContact(MainActivity.db, Profile.this).execute();
+    public void refreshListOfContacts(String rule){
+        new AsyncGetAllContact(MainActivity.db, Profile.this, rule).execute();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        refreshListOfContacts();
+        refreshListOfContacts(rule);
     }
 
     @Override
@@ -67,12 +68,14 @@ public class Profile extends AppCompatActivity {
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                refreshListOfContacts("%"+query+"%");
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                return false;
+                refreshListOfContacts("%"+newText+"%");
+                return true;
             }
         });
 
@@ -202,6 +205,8 @@ public class Profile extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         search.setQuery(savedInstanceState.getString("searchSave"), true);
+        rule = "%"+savedInstanceState.getString("searchSave")+"%";
+        refreshListOfContacts(rule);
         sort.setSelection(savedInstanceState.getInt("sortIndexSave"));
     }
 }

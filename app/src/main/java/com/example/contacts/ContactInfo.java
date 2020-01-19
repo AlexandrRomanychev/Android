@@ -73,7 +73,7 @@ public class ContactInfo{
                     public void onClick(DialogInterface dialog, int id) {
                         // User clicked OK button
                         new AsyncDelContact(MainActivity.db, contact).execute();
-                        context.refreshListOfContacts();
+                        context.refreshListOfContacts("%");
                     }
                 });
                 builder.setNegativeButton("НЕТ", new DialogInterface.OnClickListener() {

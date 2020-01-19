@@ -14,18 +14,20 @@ public class AsyncGetAllContact  extends AsyncTask<Void, Void, Integer> {
     private final AppDatabase db;
     private Profile activity;
     private List<Contact> contacts;
+    private String rule;
 
     public List<Contact> getContacts(){return this.contacts;}
 
-    public AsyncGetAllContact(AppDatabase db, Profile activity){
+    public AsyncGetAllContact(AppDatabase db, Profile activity, String rule){
         this.db = db;
         this.activity = activity;
+        this.rule = rule;
         contacts = new ArrayList<>();
     }
 
     @Override
     protected Integer doInBackground(Void... voids) {
-        contacts = db.contactDao().getAll();
+        contacts = db.contactDao().getAll(rule);
         return 1;
     }
 
