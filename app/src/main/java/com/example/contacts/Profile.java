@@ -59,8 +59,22 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.list_profiles);
 
         profiles = findViewById(R.id.profiles);
-        search = findViewById(R.id.search_profile);
         sort = findViewById(R.id.spinner_sort);
+
+        search = findViewById(R.id.search_profile);
+
+        //Поиск по ФИО
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         // Создание кнопок добавления контактов и их обработчиков
         btn_import = findViewById(R.id.import_profile);
