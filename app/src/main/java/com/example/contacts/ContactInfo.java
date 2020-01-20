@@ -123,6 +123,7 @@ public class ContactInfo{
                 intent.putExtra("photo", contact.photo);
                 intent.putExtra("status", "update");
                 intent.putExtra("id", contact.uid);
+                intent.putExtra("login", contact.login);
                 context.startActivity(intent);
             }
         });
