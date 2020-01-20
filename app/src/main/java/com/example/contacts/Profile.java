@@ -23,6 +23,7 @@ import com.example.contacts.async.AsyncUserAction;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 import com.example.contacts.database.entity.User;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -31,8 +32,7 @@ import android.widget.Spinner;
 
 public class Profile extends AppCompatActivity {
 
-    private Button exit;
-    private FloatingActionButton btn_add, btn_import, btn_new;
+    private FloatingActionButton btn_add, btn_import, btn_new, exit;
     private Boolean flag = false;
     private LinearLayout profiles;
     private SearchView search;
@@ -173,10 +173,12 @@ public class Profile extends AppCompatActivity {
                 if(!flag){
                     btn_new.setVisibility(View.VISIBLE);
                     btn_import.setVisibility(View.VISIBLE);
+                    exit.setVisibility(View.VISIBLE);
                     btn_add.setImageResource(R.drawable.cancel);
                 } else {
                     btn_new.setVisibility(View.INVISIBLE);
                     btn_import.setVisibility(View.INVISIBLE);
+                    exit.setVisibility(View.INVISIBLE);
                     btn_add.setImageResource(R.drawable.plus);
                 }
                 flag = !flag;
