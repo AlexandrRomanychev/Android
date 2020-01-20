@@ -12,6 +12,7 @@ import com.example.contacts.async.AsyncUserAction;
 import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.User;
+import com.example.contacts.validation.Validation;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -31,21 +32,21 @@ public class MainActivity extends AppCompatActivity {
         Button enter = findViewById(R.id.authorization);
         Button registry = findViewById(R.id.registration);
 
+        new AsyncUserAction(MainActivity.this, db, null, Profile.class, DataBaseComands.USER_GET_LOGINED).execute();
+
         enter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncUserAction(MainActivity.this, db,
-                        new User(login.getText().toString(), password.getText().toString()),
-                        Profile.class, DataBaseComands.USER_ENTER).execute();
+                Validation.validateLoginPage(MainActivity.this, login.getText().toString(),
+                        password.getText().toString(), DataBaseComands.USER_ENTER);
             }
         });
 
         registry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncUserAction(MainActivity.this, db,
-                        new User(login.getText().toString(), password.getText().toString()),
-                        Profile.class, DataBaseComands.USER_CHECK_REGISTRY).execute();
+                Validation.validateLoginPage(MainActivity.this, login.getText().toString(),
+                        password.getText().toString(), DataBaseComands.USER_REGISTRY);
             }
         });
     }

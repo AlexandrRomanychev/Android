@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Contacts</string>
+    <string-array name="sorts">
+        <item>(нет)</item>>
+        <item>ФИО по возрастанию</item>
+        <item>ФИО по убыванию</item>
+        <item>Дата по возрастанию</item>
+        <item>Дата по убыванию</item>
+    </string-array>
 </resources>
