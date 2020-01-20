@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    android:backgroundTint="@android:color/darker_gray"
+    android:backgroundTint="@color/background"
     tools:context=".AddChangeInformation"
     android:gravity="center">
     <ScrollView
@@ -48,7 +48,7 @@
                         android:paddingStart="10dp"
                         android:background="@android:color/darker_gray"
                         android:backgroundTint="@android:color/background_light"
-                        android:hint="ФИО"
+                        android:hint="@string/fio"
                         android:textSize="24sp"
                         android:inputType="text" />
 
@@ -62,9 +62,9 @@
                         android:layout_weight="1"
                         android:background="@android:color/darker_gray"
                         android:backgroundTint="@android:color/background_light"
-                        android:hint="Дата рождения"
+                        android:hint="@string/birthday"
                         android:inputType="date"
-                        android:paddingLeft="10dp"
+                        android:paddingStart="10dp"
                         android:textSize="24sp" />
 
                     <EditText
@@ -78,8 +78,8 @@
                         android:background="@android:color/darker_gray"
                         android:backgroundTint="@android:color/background_light"
                         android:ems="10"
-                        android:hint="Телефон"
-                        android:paddingLeft="10dp"
+                        android:hint="@string/phone"
+                        android:paddingStart="10dp"
                         android:inputType="phone"
                         android:textSize="24sp"/>
                 </LinearLayout>
@@ -88,8 +88,9 @@
                 android:id="@+id/save"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text = "Сохранить"
+                android:text = "@string/save"
                 android:textSize="24sp"
+                android:backgroundTint="@color/button"
                 android:layout_marginTop="30dp"/>
         </LinearLayout>
     </ScrollView>

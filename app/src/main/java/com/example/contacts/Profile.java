@@ -23,7 +23,6 @@ import com.example.contacts.database.entity.Contact;
 import com.example.contacts.database.entity.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.Date;
 import java.util.List;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -72,7 +71,6 @@ public class Profile extends AppCompatActivity {
                 break;
             }
         }
-
     }
 
     @Override
@@ -92,32 +90,12 @@ public class Profile extends AppCompatActivity {
 
         profiles = findViewById(R.id.profiles);
         sort = findViewById(R.id.spinner_sort);
+        search = findViewById(R.id.search_profile);
 
         sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position){
-                    case 0:{
-                        refreshListOfContacts("%"+search.getQuery().toString()+"%");
-                        break;
-                    }
-                    case 1: {
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_UP, loginUser).execute();
-                        break;
-                    }
-                    case 2:{
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_DOWN, loginUser).execute();
-                        break;
-                    }
-                    case 3:{
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_UP, loginUser).execute();
-                        break;
-                    }
-                    case 4:{
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_DOWN, loginUser).execute();
-                        break;
-                    }
-                }
+                refreshListOfContacts("%"+search.getQuery().toString()+"%");
             }
 
             @Override
@@ -125,8 +103,6 @@ public class Profile extends AppCompatActivity {
                 refreshListOfContacts("%"+search.getQuery().toString()+"%");
             }
         });
-
-        search = findViewById(R.id.search_profile);
 
         //Поиск по ФИО
         search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -267,7 +243,6 @@ public class Profile extends AppCompatActivity {
     {
         outState.putString("searchSave", search.getQuery().toString());
         outState.putInt("sortIndexSave", sort.getSelectedItemPosition());
-
         super.onSaveInstanceState(outState);
     }
 
@@ -276,10 +251,7 @@ public class Profile extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
         super.onRestoreInstanceState(savedInstanceState);
-
         search.setQuery(savedInstanceState.getString("searchSave"), true);
-        //rule = "%"+savedInstanceState.getString("searchSave")+"%";
         sort.setSelection(savedInstanceState.getInt("sortIndexSave"));
-        //refreshListOfContacts(rule);
     }
 }

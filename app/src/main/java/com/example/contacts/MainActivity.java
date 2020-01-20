@@ -11,7 +11,6 @@ import android.widget.EditText;
 import com.example.contacts.async.AsyncUserAction;
 import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.DataBaseComands;
-import com.example.contacts.database.entity.User;
 import com.example.contacts.validation.Validation;
 
 public class MainActivity extends AppCompatActivity {

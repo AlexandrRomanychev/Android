@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.contacts.async.AsyncContactAction;
@@ -21,11 +20,7 @@ import com.example.contacts.database.entity.Contact;
 
 import com.example.contacts.validation.Validation;
 import com.facebook.common.logging.FLog;
-import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.facebook.imagepipeline.request.ImageRequest;
-
-import java.io.File;
 
 public class AddChangeInformation extends AppCompatActivity {
 
@@ -105,17 +100,15 @@ public class AddChangeInformation extends AppCompatActivity {
         });
 
         // Подставляем данные в TextView профиля
-        if (arguments != null)
-        {
-            name.setText(arguments.getString("Name"));
-            phone.setText(arguments.getString("Tellephone"));
-            date.setText(arguments.getString("date"));
-            if (arguments.getString("photo") != null)
-                ImageProfile.setImageURI(Uri.parse(arguments.getString("photo")));
-            String contactStatus = arguments.getString("status");
-            if (contactStatus != null){
-                status = DataBaseComands.CONTACT_UPDATE;
-            }
+        name.setText(arguments.getString("Name"));
+        phone.setText(arguments.getString("Tellephone"));
+        date.setText(arguments.getString("date"));
+        if (arguments.getString("photo") != null)
+            ImageProfile.setImageURI(Uri.parse(arguments.getString("photo")));
+        String contactStatus = arguments.getString("status");
+
+        if (contactStatus != null){
+            status = DataBaseComands.CONTACT_UPDATE;
         }
 
         // Востановление аватарки при повороте
@@ -134,12 +127,11 @@ public class AddChangeInformation extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
-        switch(requestCode) {
-            case GALLERY_REQUEST:
-                if(resultCode == RESULT_OK){
-                    selectedImage = imageReturnedIntent.getData(); // получаю uri фотографий
-                    ImageProfile.setImageURI(selectedImage); // установка изображения
-                }
+        if (requestCode == GALLERY_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                selectedImage = imageReturnedIntent.getData(); // получаю uri фотографий
+                ImageProfile.setImageURI(selectedImage); // установка изображения
+            }
         }
     }
 

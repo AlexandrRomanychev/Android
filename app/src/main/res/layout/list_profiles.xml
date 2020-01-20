@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    android:backgroundTint="@android:color/darker_gray"
+    android:backgroundTint="@color/background"
     tools:context=".Profile">
 
 
@@ -17,8 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="80dp"
-        android:layout_gravity="center"
-        android:layout_weight="1">
+        android:layout_gravity="center">
 
         <LinearLayout
             android:id="@+id/profiles"
@@ -42,19 +41,19 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginTop="20dp"
                 android:background="@android:color/white"
-                android:paddingLeft="10dp"
-                android:text="Cортировка" />
+                android:paddingStart="10dp"
+                android:text="@string/sort" />
 
             <Spinner
                 android:id="@+id/spinner_sort"
                 android:layout_width="match_parent"
                 android:layout_height="27dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@android:color/white"
                 android:entries="@array/sorts"/>
@@ -66,7 +65,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
             android:background="@android:color/white"
             android:layout_marginBottom="20dp"/>
