@@ -19,14 +19,10 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
 
-import com.example.contacts.async.AsyncDelContact;
-import com.example.contacts.async.AsyncGetAllContact;
 import com.example.contacts.async.AsyncContactAction;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 import com.facebook.drawee.view.SimpleDraweeView;
-
-import org.w3c.dom.Text;
 
 public class ContactInfo {
 
@@ -143,7 +139,7 @@ public class ContactInfo {
         full.addView(generateLocalImage());
         full.addView(horizontalScrollView);
         full.addView(generateLocalDeleteButton("Удалить"));
-        full.addView(call);
+        //full.addView(call);
 
         nameAndDate.setOnClickListener(new View.OnClickListener() {
             @Override
