@@ -26,7 +26,7 @@ public class UploadWorker extends Worker {
 
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(context, CHANNEL_ID)
-                        .setSmallIcon(R.drawable.img_button_add_profile_select_false)
+                        .setSmallIcon(R.drawable.plus)
                         .setContentTitle("Напоминание")
                         .setContentText("Пора покормить кота")
                         .setPriority(NotificationCompat.PRIORITY_DEFAULT);

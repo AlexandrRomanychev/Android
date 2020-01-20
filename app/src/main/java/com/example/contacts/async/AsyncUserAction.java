@@ -66,8 +66,6 @@ public class AsyncUserAction extends AsyncTask<Void, Void, Integer> {
                 if (result > 0) {
                     Toast.makeText(activity, "Успешный вход", Toast.LENGTH_SHORT).show();
                     new AsyncUserAction(activity, db, user, nextPage, DataBaseComands.USER_ADD).execute();
-                    /*Intent intent = new Intent(activity, nextPage);
-                    activity.startActivity(intent);*/
                 } else {
                     Toast.makeText(activity, "Неверный логин/пароль", Toast.LENGTH_SHORT).show();
                 }
@@ -84,8 +82,6 @@ public class AsyncUserAction extends AsyncTask<Void, Void, Integer> {
             case USER_REGISTRY:{
                 Toast.makeText(activity, "Успешная регистрация", Toast.LENGTH_SHORT).show();
                 new AsyncUserAction(activity, db, user, nextPage, DataBaseComands.USER_ADD).execute();
-                /*Intent intent = new Intent(activity, nextPage);
-                activity.startActivity(intent);*/
                 break;
             }
             case USER_GET_LOGINED:{
@@ -98,9 +94,6 @@ public class AsyncUserAction extends AsyncTask<Void, Void, Integer> {
             }
             case USER_ADD:{
                 new AsyncUserAction(activity, db, user, nextPage, DataBaseComands.USER_GET_LOGINED).execute();
-                /*Intent intent = new Intent(activity, nextPage);
-                intent.putExtra("login", logUser.getLogin());
-                activity.startActivity(intent);*/
                 break;
             }
         }

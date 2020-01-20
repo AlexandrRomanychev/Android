@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.view.View;
@@ -88,7 +89,7 @@ public class ContactInfo {
         return delete;
     }
 
-    private Button gemerateLocalCongratulateButton(String text) {
+    private Button generateLocalCongratulateButton(String text) {
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         Button congratulate = new Button(this.context);
@@ -141,11 +142,16 @@ public class ContactInfo {
         full.setOrientation(LinearLayout.HORIZONTAL);
         full.setLayoutParams(fullLayoutParams);
 
+        LinearLayout buttons = new LinearLayout(context);
+        buttons.setOrientation(LinearLayout.VERTICAL);
+        buttons.addView(generateLocalDeleteButton("Удалить"));
+        buttons.addView(generateLocalCongratulateButton("Поздравить"));
+
         full.addView(generateLocalImage());
         full.addView(horizontalScrollView);
-        full.addView(generateLocalDeleteButton("Удалить"));
-        full.addView(gemerateLocalCongratulateButton("Поздравить"));
-        //full.addView(call);
+        full.addView(buttons);
+        //full.addView(generateLocalDeleteButton("Удалить"));
+        //full.addView(generateLocalCongratulateButton("Поздравить"));
 
         nameAndDate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,9 +167,6 @@ public class ContactInfo {
                 context.startActivity(intent);
             }
         });
-
-        //scroll.setLayoutParams(layoutParams);
-        //scroll.addView(full);
 
         return full;
     }
