@@ -3,8 +3,16 @@ package com.example.contacts.database;
 public enum DataBaseComands {
     USER_ENTER,
     USER_REGISTRY,
+    USER_ADD,
+    USER_DELETE,
+    USER_GET_LOGINED,
     USER_CHECK_REGISTRY,
     CONTACT_ADD,
     CONTACT_DELETE,
-    CONTACT_GET_ALL
+    CONTACT_GET_ALL,
+    CONTACT_UPDATE,
+    CONTACT_SORT_NAME_UP,
+    CONTACT_SORT_NAME_DOWN,
+    CONTACT_SORT_DATE_UP,
+    CONTACT_SORT_DATE_DOWN
 }

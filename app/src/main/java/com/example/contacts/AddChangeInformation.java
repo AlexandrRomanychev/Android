@@ -9,39 +9,57 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.contacts.async.AsyncAddContact;
+import com.example.contacts.async.AsyncContactAction;
+import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class AddChangeInformation extends AppCompatActivity {
 
-    private EditText surname, name, patronymic, phone, date;
-    private Button save;
+    private EditText name, phone, date;
     static final int GALLERY_REQUEST = 1;
     private SimpleDraweeView ImageProfile;
     private Uri selectedImage = null;
+    private DataBaseComands status;
+    private String userLogin = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        status = DataBaseComands.CONTACT_ADD;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_change_information);
 
-        surname = findViewById(R.id.surname);
+        // Получаю все аргументы
+        final Bundle arguments = getIntent().getExtras();
+        userLogin = arguments.getString("login");
+
         name = findViewById(R.id.name);
-        patronymic = findViewById(R.id.patronymic);
         phone = findViewById(R.id.phone);
         date = findViewById(R.id.birthday);
 
-        save = findViewById(R.id.save);
+        Button save = findViewById(R.id.save);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String uri = selectedImage == null? "" : selectedImage.toString();
-                new AsyncAddContact(MainActivity.db, new Contact(surname.getText().toString(), name.getText().toString(),
-                        patronymic.getText().toString(), date.getText().toString(), phone.getText().toString(),
-                        uri)).execute();
+                String uri = selectedImage == null? arguments.getString("photo") == null? "" : arguments.getString("photo") : selectedImage.toString();
+                switch (status){
+                    case CONTACT_ADD:{
+                        new AsyncContactAction(MainActivity.db, null,
+                                new Contact( name.getText().toString(),
+                                        date.getText().toString(), phone.getText().toString(),
+                                        uri, userLogin), "%", DataBaseComands.CONTACT_ADD, userLogin).execute();
+                        break;
+                    }
+                    case CONTACT_UPDATE:{
+                        new AsyncContactAction(MainActivity.db, null,
+                                new Contact( name.getText().toString(),
+                                        date.getText().toString(), phone.getText().toString(),
+                                        uri, arguments.getInt("id"), userLogin), "%", DataBaseComands.CONTACT_UPDATE, userLogin).execute();
+                        break;
+                    }
+                }
                 finish();
             }
         });
@@ -57,20 +75,20 @@ public class AddChangeInformation extends AppCompatActivity {
             }
         });
 
-        // Получаю все аргументы
-        Bundle arguments = getIntent().getExtras();
+
 
         // Подставляем данные в TextView профиля
         if (arguments != null)
         {
-            String Name = arguments.getString("Name");
-            String PhoneNumber = arguments.getString("Tellephone");
-
-            name = findViewById(R.id.name);
-            phone = findViewById(R.id.phone);
-
-            name.setText(Name);
-            phone.setText(PhoneNumber);
+            name.setText(arguments.getString("Name"));
+            phone.setText(arguments.getString("Tellephone"));
+            date.setText(arguments.getString("date"));
+            if (arguments.getString("photo") != null)
+                ImageProfile.setImageURI(Uri.parse(arguments.getString("photo")));
+            String contactStatus = arguments.getString("status");
+            if (contactStatus != null){
+                status = DataBaseComands.CONTACT_UPDATE;
+            }
         }
 
         // Востановление аватарки при повороте
@@ -102,9 +120,7 @@ public class AddChangeInformation extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState)
     {
-        outState.putString("surnameSave", surname.getText().toString());
         outState.putString("nameSave", name.getText().toString());
-        outState.putString("patronymicSave", patronymic.getText().toString());
         outState.putString("birthdaySave", date.getText().toString());
         outState.putString("phoneSave", phone.getText().toString());
 
@@ -121,9 +137,7 @@ public class AddChangeInformation extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState)
     {
         super.onRestoreInstanceState(savedInstanceState);
-        surname.setText(savedInstanceState.getString("surnameSave"));
         name.setText(savedInstanceState.getString("nameSave"));
-        patronymic.setText(savedInstanceState.getString("patronymicSave"));
         date.setText(savedInstanceState.getString("birthdaySave"));
         phone.setText(savedInstanceState.getString("phoneSave"));
     }

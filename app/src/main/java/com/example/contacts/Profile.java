@@ -12,12 +12,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import com.example.contacts.async.AsyncGetAllContact;
+import com.example.contacts.async.AsyncContactAction;
+import com.example.contacts.async.AsyncUserAction;
+import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
+import com.example.contacts.database.entity.User;
 
 import java.util.List;
 import android.widget.SearchView;
@@ -25,12 +29,14 @@ import android.widget.Spinner;
 
 public class Profile extends AppCompatActivity {
 
-    private Button btn_import, btn_new;
+    private Button btn_import, btn_new, exit;
     private ImageButton btn_add;
     private Boolean flag = false;
     private LinearLayout profiles;
     private SearchView search;
     private Spinner sort;
+    private String rule = "%";
+    private String loginUser = "";
 
     private static final int CONTACT_PICK_RESULT = 1;
     private static final int REQUEST_CODE_PERMISSION_READ_CONTACTS = 1;
@@ -43,14 +49,15 @@ public class Profile extends AppCompatActivity {
         }
     }
 
-    public void refreshListOfContacts(){
-        new AsyncGetAllContact(MainActivity.db, Profile.this).execute();
+    public void refreshListOfContacts(String rule){
+        new AsyncContactAction(MainActivity.db, Profile.this, null,  rule,
+                DataBaseComands.CONTACT_GET_ALL, loginUser).execute();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        refreshListOfContacts();
+        refreshListOfContacts(rule);
     }
 
     @Override
@@ -58,9 +65,62 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_profiles);
 
+        final Bundle arguments = getIntent().getExtras();
+        loginUser = arguments.getString("login");
+        this.setTitle("Вы авторизованы как: "+loginUser);
+
         profiles = findViewById(R.id.profiles);
-        search = findViewById(R.id.search_profile);
         sort = findViewById(R.id.spinner_sort);
+
+        sort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position){
+                    case 0:{
+                        refreshListOfContacts("%");
+                        break;
+                    }
+                    case 1: {
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_NAME_UP, loginUser).execute();
+                        break;
+                    }
+                    case 2:{
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_NAME_DOWN, loginUser).execute();
+                        break;
+                    }
+                    case 3:{
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_DATE_UP, loginUser).execute();
+                        break;
+                    }
+                    case 4:{
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_DATE_DOWN, loginUser).execute();
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                refreshListOfContacts("%");
+            }
+        });
+
+        search = findViewById(R.id.search_profile);
+
+        //Поиск по ФИО
+        search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                refreshListOfContacts("%"+query+"%");
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                refreshListOfContacts("%"+newText+"%");
+                return true;
+            }
+        });
 
         // Создание кнопок добавления контактов и их обработчиков
         btn_import = findViewById(R.id.import_profile);
@@ -96,6 +156,7 @@ public class Profile extends AppCompatActivity {
                 intent.putExtra("ID", -1);
                 intent.putExtra("Name", "");
                 intent.putExtra("Tellephone", "");
+                intent.putExtra("login", loginUser);
                 startActivity(intent);
             }
         });
@@ -116,6 +177,15 @@ public class Profile extends AppCompatActivity {
                     btn_add.setBackgroundResource(R.drawable.img_button_add_profile_select_false);
                 }
                 flag = !flag;
+            }
+        });
+
+        exit = findViewById(R.id.exit);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AsyncUserAction(Profile.this, MainActivity.db, new User(loginUser, ""), MainActivity.class, DataBaseComands.USER_DELETE).execute();
+                finish();
             }
         });
     }
@@ -161,6 +231,7 @@ public class Profile extends AppCompatActivity {
                         intent.putExtra("ID", Integer.parseInt(Id));
                         intent.putExtra("Name", Name);
                         intent.putExtra("Tellephone", PhoneNumber);
+                        intent.putExtra("login", loginUser);
                         startActivity(intent);
                     }
                     break;
@@ -188,6 +259,8 @@ public class Profile extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         search.setQuery(savedInstanceState.getString("searchSave"), true);
+        rule = "%"+savedInstanceState.getString("searchSave")+"%";
+        refreshListOfContacts(rule);
         sort.setSelection(savedInstanceState.getInt("sortIndexSave"));
     }
 }
