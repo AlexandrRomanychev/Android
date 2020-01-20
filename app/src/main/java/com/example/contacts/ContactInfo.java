@@ -88,6 +88,31 @@ public class ContactInfo {
         return delete;
     }
 
+    private Button gemerateLocalCongratulateButton(String text) {
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        Button congratulate = new Button(this.context);
+        congratulate.setText(text);
+        congratulate.setTextSize(8);
+        congratulate.setLayoutParams(layoutParams);
+        congratulate.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+                //Проверка на разрешение звонков
+                if (context.checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(context, new String[] {Manifest.permission.CALL_PHONE},
+                            REQUEST_CODE_PERMISSION_CALL_PHONE);
+                    return;
+                }
+                String toDial = "tel:" + contact.phone;
+                context.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(toDial)));
+            }
+        });
+        return congratulate;
+    }
+
     public View getView(){
         // Компонент, который содержит ФИО и дату
         LinearLayout nameAndDate = new LinearLayout(context);
@@ -108,26 +133,6 @@ public class ContactInfo {
         horizontalScrollView.setLayoutParams(layoutParams1);
         horizontalScrollView.addView(nameAndDate);
 
-        Button call = new Button(context);
-        call.setText("Поздравить");
-        call.setLayoutParams(layoutParams);
-        call.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.M)
-            @Override
-            public void onClick(View v) {
-
-                //Проверка на разрешение звонков
-                if (context.checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-
-                    ActivityCompat.requestPermissions(context, new String[] {Manifest.permission.CALL_PHONE},
-                            REQUEST_CODE_PERMISSION_CALL_PHONE);
-                    return;
-                }
-                String toDial = "tel:" + contact.phone;
-                context.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(toDial)));
-            }
-        });
-
         // Компонент, который содержит фото и предыдущий компонент
         LinearLayout full = new LinearLayout(context);
         RelativeLayout.LayoutParams fullLayoutParams = new RelativeLayout.LayoutParams(
@@ -139,6 +144,7 @@ public class ContactInfo {
         full.addView(generateLocalImage());
         full.addView(horizontalScrollView);
         full.addView(generateLocalDeleteButton("Удалить"));
+        full.addView(gemerateLocalCongratulateButton("Поздравить"));
         //full.addView(call);
 
         nameAndDate.setOnClickListener(new View.OnClickListener() {
