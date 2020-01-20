@@ -7,12 +7,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import com.example.contacts.async.AsyncContactAction;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 
+import com.example.contacts.validation.Validation;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class AddChangeInformation extends AppCompatActivity {
@@ -46,21 +48,28 @@ public class AddChangeInformation extends AppCompatActivity {
                 String uri = selectedImage == null? arguments.getString("photo") == null? "" : arguments.getString("photo") : selectedImage.toString();
                 switch (status){
                     case CONTACT_ADD:{
-                        new AsyncContactAction(MainActivity.db, null,
-                                new Contact( name.getText().toString(),
-                                        date.getText().toString(), phone.getText().toString(),
-                                        uri, userLogin), "%", DataBaseComands.CONTACT_ADD, userLogin).execute();
+                        if (Validation.validateContactPage(AddChangeInformation.this, name.getText().toString(),
+                                date.toString(), phone.getText().toString())) {
+                            new AsyncContactAction(MainActivity.db, null,
+                                    new Contact(name.getText().toString(),
+                                            date.toString(), phone.getText().toString(),
+                                            uri, userLogin), "%", DataBaseComands.CONTACT_ADD, userLogin).execute();
+                            finish();
+                        }
                         break;
                     }
                     case CONTACT_UPDATE:{
-                        new AsyncContactAction(MainActivity.db, null,
-                                new Contact( name.getText().toString(),
-                                        date.getText().toString(), phone.getText().toString(),
-                                        uri, arguments.getInt("id"), userLogin), "%", DataBaseComands.CONTACT_UPDATE, userLogin).execute();
+                        if (Validation.validateContactPage(AddChangeInformation.this, name.getText().toString(),
+                                date.getText().toString(), phone.getText().toString())){
+                            new AsyncContactAction(MainActivity.db, null,
+                                    new Contact( name.getText().toString(),
+                                            date.getText().toString(), phone.getText().toString(),
+                                            uri, arguments.getInt("id"), userLogin), "%", DataBaseComands.CONTACT_UPDATE, userLogin).execute();
+                            finish();
+                        }
                         break;
                     }
                 }
-                finish();
             }
         });
 
@@ -82,7 +91,7 @@ public class AddChangeInformation extends AppCompatActivity {
         {
             name.setText(arguments.getString("Name"));
             phone.setText(arguments.getString("Tellephone"));
-            date.setText(arguments.getString("date"));
+            //date.setText(arguments.getString("date"));
             if (arguments.getString("photo") != null)
                 ImageProfile.setImageURI(Uri.parse(arguments.getString("photo")));
             String contactStatus = arguments.getString("status");
