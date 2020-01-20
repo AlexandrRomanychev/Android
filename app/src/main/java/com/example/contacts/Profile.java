@@ -5,6 +5,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -22,6 +23,7 @@ import com.example.contacts.async.AsyncUserAction;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 import com.example.contacts.database.entity.User;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 import android.widget.SearchView;
@@ -29,8 +31,8 @@ import android.widget.Spinner;
 
 public class Profile extends AppCompatActivity {
 
-    private Button btn_import, btn_new, exit;
-    private ImageButton btn_add;
+    private Button exit;
+    private FloatingActionButton btn_add, btn_import, btn_new;
     private Boolean flag = false;
     private LinearLayout profiles;
     private SearchView search;
@@ -163,6 +165,7 @@ public class Profile extends AppCompatActivity {
 
         btn_add = findViewById(R.id.add_profile);
         btn_add.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View v) {
                 // Если была нажата только один раз, то варианты добавления контакта появяться.
@@ -170,11 +173,11 @@ public class Profile extends AppCompatActivity {
                 if(!flag){
                     btn_new.setVisibility(View.VISIBLE);
                     btn_import.setVisibility(View.VISIBLE);
-                    btn_add.setBackgroundResource(R.drawable.img_button_add_profile_select_true);
+                    btn_add.setImageResource(R.drawable.cancel);
                 } else {
                     btn_new.setVisibility(View.INVISIBLE);
                     btn_import.setVisibility(View.INVISIBLE);
-                    btn_add.setBackgroundResource(R.drawable.img_button_add_profile_select_false);
+                    btn_add.setImageResource(R.drawable.plus);
                 }
                 flag = !flag;
             }
@@ -190,25 +193,21 @@ public class Profile extends AppCompatActivity {
         });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         String PhoneNumber = "";
 
-        if (resultCode == RESULT_OK)
-        {
-            switch (requestCode)
-            {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case CONTACT_PICK_RESULT:
                     Uri contactData = data.getData();
                     Cursor c = getContentResolver().query(contactData, null, null, null, null);
-                    if (c.moveToNext())
-                    {
+                    if (c.moveToNext()) {
                         String Id = c.getString(c.getColumnIndex(ContactsContract.Contacts._ID));
                         String Name = c.getString(c.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
                         int CountPhone = Integer.parseInt(c.getString(c.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)));
 
-                        if (CountPhone > 0)
-                        {
+                        if (CountPhone > 0) {
                             Cursor phones = getContentResolver().query(
                                     ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                                     null,
@@ -216,8 +215,7 @@ public class Profile extends AppCompatActivity {
                                     new String[]{Id},
                                     null);
 
-                            while (phones.moveToNext())
-                            {
+                            while (phones.moveToNext()) {
                                 // Берем по умолчанию первый телефон
                                 PhoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                                 break;
