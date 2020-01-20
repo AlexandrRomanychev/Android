@@ -9,7 +9,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    android:backgroundTint="@android:color/darker_gray"
+    android:backgroundTint="@color/background"
     tools:context=".Profile">
 
 

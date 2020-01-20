@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Contacts</string>
+    <string name="app_name">Напоминалка о днях рождения</string>
     <string name="authentication">Авторизация/Регистрация</string>
     <string name="login">Логин</string>
     <string name="password">Пароль</string>
