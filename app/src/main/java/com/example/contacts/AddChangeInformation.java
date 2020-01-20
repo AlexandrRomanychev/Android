@@ -1,8 +1,12 @@
 package com.example.contacts;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +19,12 @@ import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 
 import com.example.contacts.validation.Validation;
+import com.facebook.common.logging.FLog;
+import com.facebook.common.util.UriUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.facebook.imagepipeline.request.ImageRequest;
+
+import java.io.File;
 
 public class AddChangeInformation extends AppCompatActivity {
 
@@ -25,10 +34,12 @@ public class AddChangeInformation extends AppCompatActivity {
     private Uri selectedImage = null;
     private DataBaseComands status;
     private String userLogin = "";
+    private int REQUEST_CODE_PERMISSION_READ_EXTERNAL_STORAGE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         status = DataBaseComands.CONTACT_ADD;
+        FLog.setMinimumLoggingLevel(FLog.VERBOSE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_change_information);
 
@@ -77,14 +88,20 @@ public class AddChangeInformation extends AppCompatActivity {
         ImageProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Переход к галпереи фотографий
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                // переход на страницу импорта контакта
+                int permissionStatus = ContextCompat.checkSelfPermission(AddChangeInformation.this, Manifest.permission.READ_EXTERNAL_STORAGE);
+                if (permissionStatus == PackageManager.PERMISSION_GRANTED) {
+                    // Переход к галпереи фотографий
+                    Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                    photoPickerIntent.setType("image/*");
+                    startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                }
+                else{
+                    ActivityCompat.requestPermissions(AddChangeInformation.this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE},
+                            REQUEST_CODE_PERMISSION_READ_EXTERNAL_STORAGE);
+                }
             }
         });
-
-
 
         // Подставляем данные в TextView профиля
         if (arguments != null)

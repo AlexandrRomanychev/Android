@@ -14,8 +14,6 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
 import com.example.contacts.async.AsyncContactAction;
@@ -23,7 +21,6 @@ import com.example.contacts.async.AsyncUserAction;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 import com.example.contacts.database.entity.User;
-import com.facebook.drawee.backends.pipeline.Fresco;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -37,7 +34,6 @@ public class Profile extends AppCompatActivity {
     private LinearLayout profiles;
     private SearchView search;
     private Spinner sort;
-    private String rule = "%";
     private String loginUser = "";
 
     private static final int CONTACT_PICK_RESULT = 1;
@@ -52,14 +48,36 @@ public class Profile extends AppCompatActivity {
     }
 
     public void refreshListOfContacts(String rule){
-        new AsyncContactAction(MainActivity.db, Profile.this, null,  rule,
-                DataBaseComands.CONTACT_GET_ALL, loginUser).execute();
+        switch(sort.getSelectedItemPosition()){
+            case 0: {
+                new AsyncContactAction(MainActivity.db, Profile.this, null, rule,
+                        DataBaseComands.CONTACT_GET_ALL, loginUser).execute();
+                break;
+            }
+            case 1: {
+                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_UP, loginUser).execute();
+                break;
+            }
+            case 2:{
+                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_DOWN, loginUser).execute();
+                break;
+            }
+            case 3:{
+                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_UP, loginUser).execute();
+                break;
+            }
+            case 4:{
+                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_DOWN, loginUser).execute();
+                break;
+            }
+        }
+
     }
 
     @Override
     protected void onResume(){
         super.onResume();
-        refreshListOfContacts(rule);
+        refreshListOfContacts("%"+search.getQuery().toString()+"%");
     }
 
     @Override
@@ -79,23 +97,23 @@ public class Profile extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0:{
-                        refreshListOfContacts("%");
+                        refreshListOfContacts("%"+search.getQuery().toString()+"%");
                         break;
                     }
                     case 1: {
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_NAME_UP, loginUser).execute();
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_UP, loginUser).execute();
                         break;
                     }
                     case 2:{
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_NAME_DOWN, loginUser).execute();
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_DOWN, loginUser).execute();
                         break;
                     }
                     case 3:{
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_DATE_UP, loginUser).execute();
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_UP, loginUser).execute();
                         break;
                     }
                     case 4:{
-                        new AsyncContactAction(MainActivity.db, Profile.this, null, null, DataBaseComands.CONTACT_SORT_DATE_DOWN, loginUser).execute();
+                        new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_DOWN, loginUser).execute();
                         break;
                     }
                 }
@@ -103,7 +121,7 @@ public class Profile extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                refreshListOfContacts("%");
+                refreshListOfContacts("%"+search.getQuery().toString()+"%");
             }
         });
 
@@ -259,8 +277,8 @@ public class Profile extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
 
         search.setQuery(savedInstanceState.getString("searchSave"), true);
-        rule = "%"+savedInstanceState.getString("searchSave")+"%";
-        refreshListOfContacts(rule);
+        //rule = "%"+savedInstanceState.getString("searchSave")+"%";
         sort.setSelection(savedInstanceState.getInt("sortIndexSave"));
+        //refreshListOfContacts(rule);
     }
 }
