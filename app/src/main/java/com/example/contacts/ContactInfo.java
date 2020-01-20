@@ -1,10 +1,14 @@
 package com.example.contacts;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -12,6 +16,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+
+import com.example.contacts.async.AsyncDelContact;
+import com.example.contacts.async.AsyncGetAllContact;
 import com.example.contacts.async.AsyncContactAction;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
@@ -19,10 +28,12 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import org.w3c.dom.Text;
 
-public class ContactInfo{
+public class ContactInfo {
 
     private Profile context;
     private Contact contact;
+
+    private static final int REQUEST_CODE_PERMISSION_CALL_PHONE= 1;
 
     public ContactInfo(Profile context, Contact contact) {
         this.context = context;
@@ -101,6 +112,26 @@ public class ContactInfo{
         horizontalScrollView.setLayoutParams(layoutParams1);
         horizontalScrollView.addView(nameAndDate);
 
+        Button call = new Button(context);
+        call.setText("Поздравить");
+        call.setLayoutParams(layoutParams);
+        call.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public void onClick(View v) {
+
+                //Проверка на разрешение звонков
+                if (context.checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+
+                    ActivityCompat.requestPermissions(context, new String[] {Manifest.permission.CALL_PHONE},
+                            REQUEST_CODE_PERMISSION_CALL_PHONE);
+                    return;
+                }
+                String toDial = "tel:" + contact.phone;
+                context.startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(toDial)));
+            }
+        });
+
         // Компонент, который содержит фото и предыдущий компонент
         LinearLayout full = new LinearLayout(context);
         RelativeLayout.LayoutParams fullLayoutParams = new RelativeLayout.LayoutParams(
@@ -112,6 +143,7 @@ public class ContactInfo{
         full.addView(generateLocalImage());
         full.addView(horizontalScrollView);
         full.addView(generateLocalDeleteButton("Удалить"));
+        full.addView(call);
 
         nameAndDate.setOnClickListener(new View.OnClickListener() {
             @Override

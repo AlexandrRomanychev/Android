@@ -43,4 +43,22 @@ dependencies {
     // For WebP support, without animations
     implementation 'com.facebook.fresco:webpsupport:2.0.0'
 
+    ///////////////////////////////////////////////////////////////////////////
+    // WoekManager
+
+    def work_version = "2.2.0"
+
+    // (Java only)
+    implementation "androidx.work:work-runtime:$work_version"
+
+    // optional - RxJava2 support
+    implementation "androidx.work:work-rxjava2:$work_version"
+
+    // optional - GCMNetworkManager support
+    implementation "androidx.work:work-gcm:$work_version"
+
+    // optional - Test helpers
+    androidTestImplementation "androidx.work:work-testing:$work_version"
+
+    implementation 'androidx.appcompat:appcompat:1.1.0'
 }
