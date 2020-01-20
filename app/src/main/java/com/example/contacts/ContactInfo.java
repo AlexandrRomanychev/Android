@@ -22,6 +22,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.example.contacts.async.AsyncContactAction;
 import com.example.contacts.database.DataBaseComands;
+import com.example.contacts.database.converter.DateConverter;
 import com.example.contacts.database.entity.Contact;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -125,7 +126,7 @@ public class ContactInfo {
         nameAndDate.setBackgroundColor(Color.WHITE);
 
         nameAndDate.addView(generateLocalTextView(this.contact.name));
-        nameAndDate.addView(generateLocalTextView(this.contact.date));
+        nameAndDate.addView(generateLocalTextView(new DateConverter().dateToString(this.contact.date)));
 
         LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -159,7 +160,7 @@ public class ContactInfo {
                 Intent intent = new Intent(context, AddChangeInformation.class);
                 intent.putExtra("Name", contact.name);
                 intent.putExtra("Tellephone", contact.phone);
-                intent.putExtra("date", contact.date);
+                intent.putExtra("date", new DateConverter().dateToString(contact.date));
                 intent.putExtra("photo", contact.photo);
                 intent.putExtra("status", "update");
                 intent.putExtra("id", contact.uid);

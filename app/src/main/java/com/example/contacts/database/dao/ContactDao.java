@@ -4,10 +4,13 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.TypeConverters;
 
+import com.example.contacts.database.converter.DateConverter;
 import com.example.contacts.database.entity.Contact;
 import com.example.contacts.database.entity.User;
 
+import java.util.Date;
 import java.util.List;
 
 @Dao
@@ -28,7 +31,7 @@ public interface ContactDao {
     List<Contact> getSortedByDateDown(String rule, String login);
 
     @Query("UPDATE contact SET name = :name, date = :date, phone = :phone, photo = :photo WHERE uid IN (:contactIds) AND login = :login")
-    void updateContact(String name, String date, String phone, String photo, int[] contactIds, String login);
+    void updateContact(String name, long date, String phone, String photo, int[] contactIds, String login);
 
     @Insert
     void insertAll(Contact... contacts);

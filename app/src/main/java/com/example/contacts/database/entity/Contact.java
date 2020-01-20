@@ -4,6 +4,11 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.contacts.database.converter.DateConverter;
+
+import java.sql.Date;
+import java.sql.Timestamp;
+
 @Entity
 public class Contact {
     @PrimaryKey(autoGenerate = true)
@@ -16,7 +21,7 @@ public class Contact {
     public String phone;
 
     @ColumnInfo(name = "date")
-    public String date;
+    public long date;
 
     @ColumnInfo(name = "photo")
     public String photo;
@@ -24,7 +29,7 @@ public class Contact {
     @ColumnInfo(name = "login")
     public String login;
 
-    public Contact(String name, String date, String phone,
+    public Contact(String name, long date, String phone,
                    String photo, String login){
         this.name = name;
         this.date = date;
@@ -32,7 +37,8 @@ public class Contact {
         this.photo = photo;
         this.login = login;
     }
-    public Contact(String name, String date, String phone,
+
+    public Contact(String name, long date, String phone,
                    String photo, int id, String login){
         this.name = name;
         this.date = date;
@@ -67,11 +73,13 @@ public class Contact {
     }
 
     public String getDate() {
-        return date;
+        DateConverter dateConverter = new DateConverter();
+        return dateConverter.dateToString(date);
     }
 
     public void setDate(String date) {
-        this.date = date;
+        DateConverter dateConverter = new DateConverter();
+        this.date = dateConverter.dateToTimestamp(date);
     }
 
     public String getPhoto() {

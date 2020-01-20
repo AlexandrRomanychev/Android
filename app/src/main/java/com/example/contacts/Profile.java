@@ -23,6 +23,7 @@ import com.example.contacts.database.entity.Contact;
 import com.example.contacts.database.entity.User;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Date;
 import java.util.List;
 import android.widget.SearchView;
 import android.widget.Spinner;

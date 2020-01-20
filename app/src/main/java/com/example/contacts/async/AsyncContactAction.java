@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import com.example.contacts.Profile;
 import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.DataBaseComands;
+import com.example.contacts.database.converter.DateConverter;
 import com.example.contacts.database.entity.Contact;
 
 import java.util.ArrayList;

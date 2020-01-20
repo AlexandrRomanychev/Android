@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import com.example.contacts.async.AsyncContactAction;
 import com.example.contacts.database.DataBaseComands;
+import com.example.contacts.database.converter.DateConverter;
 import com.example.contacts.database.entity.Contact;
 
 import com.example.contacts.validation.Validation;
@@ -63,7 +64,7 @@ public class AddChangeInformation extends AppCompatActivity {
                                 date.getText().toString(), phone.getText().toString())) {
                             new AsyncContactAction(MainActivity.db, null,
                                     new Contact(name.getText().toString(),
-                                            date.getText().toString(), phone.getText().toString(),
+                                            new DateConverter().dateToTimestamp(date.getText().toString()), phone.getText().toString(),
                                             uri, userLogin), "%", DataBaseComands.CONTACT_ADD, userLogin).execute();
                             finish();
                         }
@@ -74,7 +75,7 @@ public class AddChangeInformation extends AppCompatActivity {
                                 date.getText().toString(), phone.getText().toString())){
                             new AsyncContactAction(MainActivity.db, null,
                                     new Contact( name.getText().toString(),
-                                            date.getText().toString(), phone.getText().toString(),
+                                            new DateConverter().dateToTimestamp(date.getText().toString()), phone.getText().toString(),
                                             uri, arguments.getInt("id"), userLogin), "%", DataBaseComands.CONTACT_UPDATE, userLogin).execute();
                             finish();
                         }
