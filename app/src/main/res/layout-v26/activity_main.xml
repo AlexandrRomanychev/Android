@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:orientation="vertical"
@@ -74,16 +75,16 @@
                     android:textStyle="bold" />
 
                 <Button
-                        android:id="@+id/registration"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:width="100dp"
-                        android:backgroundTint="@android:color/tertiary_text_light"
-                        android:fontFamily="casual"
-                        android:text="@string/registry"
-                        android:textColor="@android:color/background_light"
-                        android:textSize="10sp"
-                        android:textStyle="bold" />
+                    android:id="@+id/registration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:width="100dp"
+                    android:backgroundTint="@android:color/tertiary_text_light"
+                    android:fontFamily="casual"
+                    android:text="@string/registry"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

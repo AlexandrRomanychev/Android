@@ -1,5 +1,15 @@
 <resources>
     <string name="app_name">Contacts</string>
+    <string name="authentication">Авторизация/Регистрация</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="enter">Вход</string>
+    <string name="registry">Регистрация</string>
+    <string name="fio">ФИО</string>
+    <string name="birthday">Дата рождения</string>
+    <string name="phone">Телефон</string>
+    <string name="save">Сохранить</string>
+    <string name="sort">Cортировка</string>
     <string-array name="sorts">
         <item>(нет)</item>>
         <item>ФИО по возрастанию</item>

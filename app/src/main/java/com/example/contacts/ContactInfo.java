@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
@@ -39,9 +40,13 @@ public class ContactInfo {
     }
 
     private TextView generateLocalTextView(String text){
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        layoutParams.setMargins(0,50,0,0);
         TextView textView = new TextView(this.context);
         textView.setText(text);
         textView.setTextSize(24);
+        textView.setLayoutParams(layoutParams);
         return textView;
     }
 
@@ -50,7 +55,12 @@ public class ContactInfo {
         SimpleDraweeView imageProfile = new SimpleDraweeView(context);
         imageProfile.setMinimumWidth(200);
         imageProfile.setMinimumHeight(300);
-        imageProfile.setImageURI(imageUri);
+        imageProfile.setMaxWidth(200);
+        imageProfile.setMaxHeight(300);
+        if (this.contact.photo.equals(""))
+            imageProfile.setImageResource(R.mipmap.ic_launcher_round);
+        else
+            imageProfile.setImageURI(imageUri);
         return imageProfile;
     }
 
@@ -59,7 +69,6 @@ public class ContactInfo {
         builder.setTitle(text);
         builder.setPositiveButton("ДА", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // User clicked OK button
                 new AsyncContactAction(MainActivity.db, null, contact, "%",
                         DataBaseComands.CONTACT_DELETE, contact.getLogin()).execute();
                 context.refreshListOfContacts("%");
@@ -115,46 +124,52 @@ public class ContactInfo {
         return congratulate;
     }
 
-    public View getView(){
-        // Компонент, который содержит ФИО и дату
+    private HorizontalScrollView generateLocalTextFields(){
+
         LinearLayout nameAndDate = new LinearLayout(context);
         nameAndDate.setOrientation(LinearLayout.VERTICAL);
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        nameAndDate.setLayoutParams(layoutParams);
-        nameAndDate.setBackgroundColor(Color.WHITE);
 
         nameAndDate.addView(generateLocalTextView(this.contact.name));
         nameAndDate.addView(generateLocalTextView(new DateConverter().dateToString(this.contact.date)));
 
-        LinearLayout.LayoutParams layoutParams1 = new LinearLayout.LayoutParams(
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        layoutParams1.weight = 0.1f;
+        layoutParams.weight = 0.4f;
         HorizontalScrollView horizontalScrollView = new HorizontalScrollView(context);
-        horizontalScrollView.setLayoutParams(layoutParams1);
+        horizontalScrollView.setLayoutParams(layoutParams);
         horizontalScrollView.addView(nameAndDate);
+
+        return horizontalScrollView;
+    }
+
+    private View generateLocalButtons(){
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        layoutParams.weight = 0.5f;
+        LinearLayout buttons = new LinearLayout(context);
+        buttons.setOrientation(LinearLayout.VERTICAL);
+        buttons.addView(generateLocalDeleteButton("Удалить"));
+        buttons.addView(generateLocalCongratulateButton("Поздравить"));
+        buttons.setLayoutParams(layoutParams);
+
+        return buttons;
+    }
+
+    public View getView(){
 
         // Компонент, который содержит фото и предыдущий компонент
         LinearLayout full = new LinearLayout(context);
         RelativeLayout.LayoutParams fullLayoutParams = new RelativeLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, 300);
-        fullLayoutParams.setMargins(100,0,50, 50);
+        fullLayoutParams.setMargins(50,0,50, 50);
         full.setOrientation(LinearLayout.HORIZONTAL);
         full.setLayoutParams(fullLayoutParams);
 
-        LinearLayout buttons = new LinearLayout(context);
-        buttons.setOrientation(LinearLayout.VERTICAL);
-        buttons.addView(generateLocalDeleteButton("Удалить"));
-        buttons.addView(generateLocalCongratulateButton("Поздравить"));
-
         full.addView(generateLocalImage());
-        full.addView(horizontalScrollView);
-        full.addView(buttons);
-        //full.addView(generateLocalDeleteButton("Удалить"));
-        //full.addView(generateLocalCongratulateButton("Поздравить"));
+        full.addView(generateLocalTextFields());
+        full.addView(generateLocalButtons());
 
-        nameAndDate.setOnClickListener(new View.OnClickListener() {
+        full.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AddChangeInformation.class);
