@@ -46,19 +46,19 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
                 break;
             }
             case CONTACT_SORT_NAME_UP:{
-                contacts = db.contactDao().getSortedByNameUp(login);
+                contacts = db.contactDao().getSortedByNameUp(rule, login);
                 break;
             }
             case CONTACT_SORT_NAME_DOWN:{
-                contacts = db.contactDao().getSortedByNameDown(login);
+                contacts = db.contactDao().getSortedByNameDown(rule, login);
                 break;
             }
             case CONTACT_SORT_DATE_UP:{
-                contacts = db.contactDao().getSortedByDateUp(login);
+                contacts = db.contactDao().getSortedByDateUp(rule, login);
                 break;
             }
             case CONTACT_SORT_DATE_DOWN:{
-                contacts = db.contactDao().getSortedByDateDown(login);
+                contacts = db.contactDao().getSortedByDateDown(rule, login);
                 break;
             }
             case CONTACT_UPDATE:{
