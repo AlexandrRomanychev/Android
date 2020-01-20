@@ -49,10 +49,10 @@ public class AddChangeInformation extends AppCompatActivity {
                 switch (status){
                     case CONTACT_ADD:{
                         if (Validation.validateContactPage(AddChangeInformation.this, name.getText().toString(),
-                                date.toString(), phone.getText().toString())) {
+                                date.getText().toString(), phone.getText().toString())) {
                             new AsyncContactAction(MainActivity.db, null,
                                     new Contact(name.getText().toString(),
-                                            date.toString(), phone.getText().toString(),
+                                            date.getText().toString(), phone.getText().toString(),
                                             uri, userLogin), "%", DataBaseComands.CONTACT_ADD, userLogin).execute();
                             finish();
                         }
@@ -91,7 +91,7 @@ public class AddChangeInformation extends AppCompatActivity {
         {
             name.setText(arguments.getString("Name"));
             phone.setText(arguments.getString("Tellephone"));
-            //date.setText(arguments.getString("date"));
+            date.setText(arguments.getString("date"));
             if (arguments.getString("photo") != null)
                 ImageProfile.setImageURI(Uri.parse(arguments.getString("photo")));
             String contactStatus = arguments.getString("status");
