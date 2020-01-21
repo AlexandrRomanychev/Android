@@ -17,4 +17,6 @@
         <item>Дата по возрастанию</item>
         <item>Дата по убыванию</item>
     </string-array>
+    <string name="channel_name">Push attention</string>
+    <string name="channel_description">Get birthdays of contacts</string>
 </resources>
