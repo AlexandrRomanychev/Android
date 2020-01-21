@@ -59,7 +59,7 @@ public class AddChangeInformation extends AppCompatActivity {
                                 date.getText().toString(), phone.getText().toString())) {
                             new AsyncContactAction(MainActivity.db, null,
                                     new Contact(name.getText().toString(),
-                                            new DateConverter().dateToTimestamp(date.getText().toString()), phone.getText().toString(),
+                                            DateConverter.dateToTimestamp(date.getText().toString()), phone.getText().toString(),
                                             uri, userLogin), "%", DataBaseComands.CONTACT_ADD, userLogin, null).execute();
                             finish();
                         }
@@ -70,7 +70,7 @@ public class AddChangeInformation extends AppCompatActivity {
                                 date.getText().toString(), phone.getText().toString())){
                             new AsyncContactAction(MainActivity.db, null,
                                     new Contact( name.getText().toString(),
-                                            new DateConverter().dateToTimestamp(date.getText().toString()), phone.getText().toString(),
+                                            DateConverter.dateToTimestamp(date.getText().toString()), phone.getText().toString(),
                                             uri, arguments.getInt("id"), userLogin), "%", DataBaseComands.CONTACT_UPDATE, userLogin, null).execute();
                             finish();
                         }

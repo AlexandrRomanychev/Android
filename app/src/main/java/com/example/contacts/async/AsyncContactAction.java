@@ -1,8 +1,6 @@
 package com.example.contacts.async;
 
-import android.app.Activity;
 import android.os.AsyncTask;
-import android.provider.ContactsContract;
 
 import com.example.contacts.Profile;
 import com.example.contacts.UploadWorker;
@@ -90,7 +88,7 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
             }
             case CONTACT_CONGRATULATE:{
                 Date date = new Date();
-                String strDate = new DateConverter().dateToString(date.getTime());
+                String strDate = DateConverter.dateToString(date.getTime());
                 StringBuffer stringBuffer = new StringBuffer(strDate);
                 List<Contact> contactsBirthday = new ArrayList<>();
                 for (Contact contact: contacts) {

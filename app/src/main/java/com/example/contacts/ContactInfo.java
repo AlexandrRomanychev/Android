@@ -137,7 +137,7 @@ public class ContactInfo {
         nameAndDate.setOrientation(LinearLayout.VERTICAL);
 
         nameAndDate.addView(generateLocalTextView(this.contact.name));
-        nameAndDate.addView(generateLocalTextView(new DateConverter().dateToString(this.contact.date)));
+        nameAndDate.addView(generateLocalTextView(DateConverter.dateToString(this.contact.date)));
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -153,7 +153,7 @@ public class ContactInfo {
                 Intent intent = new Intent(context, AddChangeInformation.class);
                 intent.putExtra("Name", contact.name);
                 intent.putExtra("Tellephone", contact.phone);
-                intent.putExtra("date", new DateConverter().dateToString(contact.date));
+                intent.putExtra("date", DateConverter.dateToString(contact.date));
                 intent.putExtra("photo", contact.photo);
                 intent.putExtra("status", "update");
                 intent.putExtra("id", contact.uid);

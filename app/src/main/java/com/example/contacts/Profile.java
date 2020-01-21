@@ -268,14 +268,13 @@ public class Profile extends AppCompatActivity {
     }
 
     private void openQuitDialog() {
-        AlertDialog.Builder quitDialog = new AlertDialog.Builder(
+        final AlertDialog.Builder quitDialog = new AlertDialog.Builder(
                 Profile.this);
         quitDialog.setTitle("Вы хотите выйти из приложения?");
 
         quitDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
                 new AsyncUserAction(Profile.this, MainActivity.db, new User(loginUser, ""), MainActivity.class, DataBaseComands.USER_DELETE).execute();
                 finish();
             }
@@ -284,7 +283,7 @@ public class Profile extends AppCompatActivity {
         quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
+                dialog.cancel();
             }
         });
 

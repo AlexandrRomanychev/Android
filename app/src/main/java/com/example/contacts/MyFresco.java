@@ -3,7 +3,6 @@ package com.example.contacts;
 import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Build;
 
 import androidx.work.Constraints;
@@ -11,8 +10,6 @@ import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.WorkManager;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
-
-import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import androidx.work.PeriodicWorkRequest;
@@ -47,7 +44,7 @@ public class MyFresco extends Application {
 
         // Уведомление один раз в день
         PeriodicWorkRequest pushRequest =
-                new PeriodicWorkRequest.Builder(UploadWorker.class, 1, TimeUnit.DAYS)
+                new PeriodicWorkRequest.Builder(UploadWorker.class, 1, TimeUnit.MINUTES)
                         .setConstraints(constraints)
                         .build();
 
