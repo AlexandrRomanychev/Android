@@ -32,7 +32,7 @@ public class DateConverter {
             return null;
         else{
             Date localDate = new Date(date);
-            DateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             return dateFormat.format(localDate);
         }
     }

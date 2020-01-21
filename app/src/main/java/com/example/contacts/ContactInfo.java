@@ -73,7 +73,7 @@ public class ContactInfo {
         builder.setPositiveButton("ДА", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 new AsyncContactAction(MainActivity.db, null, contact, "%",
-                        DataBaseComands.CONTACT_DELETE, contact.getLogin()).execute();
+                        DataBaseComands.CONTACT_DELETE, contact.getLogin(), null).execute();
                 context.refreshListOfContacts("%");
             }
         });

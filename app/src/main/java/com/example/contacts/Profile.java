@@ -34,7 +34,7 @@ public class Profile extends AppCompatActivity {
     private LinearLayout profiles;
     private SearchView search;
     private Spinner sort;
-    private String loginUser = "";
+    private static String loginUser = "";
 
     private static final int CONTACT_PICK_RESULT = 1;
     private static final int REQUEST_CODE_PERMISSION_READ_CONTACTS = 1;
@@ -47,27 +47,31 @@ public class Profile extends AppCompatActivity {
         }
     }
 
+    public static String getLogin(){
+        return loginUser;
+    }
+
     public void refreshListOfContacts(String rule){
         switch(sort.getSelectedItemPosition()){
             case 0: {
                 new AsyncContactAction(MainActivity.db, Profile.this, null, rule,
-                        DataBaseComands.CONTACT_GET_ALL, loginUser).execute();
+                        DataBaseComands.CONTACT_GET_ALL, loginUser, null).execute();
                 break;
             }
             case 1: {
-                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_UP, loginUser).execute();
+                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_UP, loginUser, null).execute();
                 break;
             }
             case 2:{
-                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_DOWN, loginUser).execute();
+                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_DOWN, loginUser, null).execute();
                 break;
             }
             case 3:{
-                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_UP, loginUser).execute();
+                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_UP, loginUser, null).execute();
                 break;
             }
             case 4:{
-                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_DOWN, loginUser).execute();
+                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_DOWN, loginUser, null).execute();
                 break;
             }
         }
