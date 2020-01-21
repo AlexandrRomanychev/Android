@@ -3,12 +3,14 @@ package com.example.contacts.async;
 import android.os.AsyncTask;
 
 import com.example.contacts.Profile;
+import com.example.contacts.UploadWorker;
 import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.converter.DateConverter;
 import com.example.contacts.database.entity.Contact;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
@@ -19,9 +21,10 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
     private final String rule;
     private List<Contact> contacts;
     private final Profile activity;
+    private final UploadWorker worker;
     private String login;
 
-    public AsyncContactAction(AppDatabase db, Profile activity, Contact contact, String rule, DataBaseComands status, String login){
+    public AsyncContactAction(AppDatabase db, Profile activity, Contact contact, String rule, DataBaseComands status, String login, UploadWorker worker){
         this.db = db;
         this.contact = contact;
         this.status = status;
@@ -29,6 +32,7 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
         this.rule = rule;
         this.contacts = new ArrayList<>();
         this.login = login;
+        this.worker = worker;
     }
 
     @Override
@@ -42,7 +46,8 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
                 db.contactDao().delete(contact);
                 break;
             }
-            case CONTACT_GET_ALL:{
+            case CONTACT_GET_ALL:
+            case CONTACT_CONGRATULATE:{
                 contacts = db.contactDao().getAll(rule, login);
                 break;
             }
@@ -64,6 +69,7 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
             }
             case CONTACT_UPDATE:{
                 db.contactDao().updateContact(contact.name, contact.date, contact.phone, contact.photo, new int[]{contact.uid}, login);
+                break;
             }
         }
         return 1;
@@ -78,6 +84,18 @@ public class AsyncContactAction  extends AsyncTask<Void, Void, Integer> {
             case CONTACT_SORT_DATE_UP:
             case CONTACT_SORT_DATE_DOWN:{
                 activity.showListOfProfiles(this.contacts);
+                break;
+            }
+            case CONTACT_CONGRATULATE:{
+                Date date = new Date();
+                String strDate = DateConverter.dateToString(date.getTime());
+                StringBuffer stringBuffer = new StringBuffer(strDate);
+                List<Contact> contactsBirthday = new ArrayList<>();
+                for (Contact contact: contacts) {
+                    if (contact.getDate().contains(stringBuffer.delete(5,10).toString()))
+                        contactsBirthday.add(contact);
+                }
+                worker.setContactList(contactsBirthday);
             }
         }
 

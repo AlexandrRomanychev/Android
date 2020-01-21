@@ -16,8 +16,10 @@ import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.room.Room;
 
 import com.example.contacts.async.AsyncContactAction;
+import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.converter.DateConverter;
 import com.example.contacts.database.entity.Contact;
@@ -33,12 +35,14 @@ public class ContactInfo {
     private final int IMAGE_HEIGHT = 300;
     private final int TEXT_MARGINE = 20;
     private final int VIEW_MARGINE = 50;
+    private final AppDatabase db;
 
     private static final int REQUEST_CODE_PERMISSION_CALL_PHONE= 1;
 
     public ContactInfo(Profile context, Contact contact) {
         this.context = context;
         this.contact = contact;
+        db = Room.databaseBuilder(context, AppDatabase.class, "contacts").build();
     }
 
     private TextView generateLocalTextView(String text){
@@ -72,8 +76,8 @@ public class ContactInfo {
         builder.setTitle(text);
         builder.setPositiveButton("ДА", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                new AsyncContactAction(MainActivity.db, null, contact, "%",
-                        DataBaseComands.CONTACT_DELETE, contact.getLogin()).execute();
+                new AsyncContactAction(db, null, contact, "%",
+                        DataBaseComands.CONTACT_DELETE, contact.getLogin(), null).execute();
                 context.refreshListOfContacts("%");
             }
         });
@@ -135,7 +139,7 @@ public class ContactInfo {
         nameAndDate.setOrientation(LinearLayout.VERTICAL);
 
         nameAndDate.addView(generateLocalTextView(this.contact.name));
-        nameAndDate.addView(generateLocalTextView(new DateConverter().dateToString(this.contact.date)));
+        nameAndDate.addView(generateLocalTextView(DateConverter.dateToString(this.contact.date)));
 
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
@@ -151,7 +155,7 @@ public class ContactInfo {
                 Intent intent = new Intent(context, AddChangeInformation.class);
                 intent.putExtra("Name", contact.name);
                 intent.putExtra("Tellephone", contact.phone);
-                intent.putExtra("date", new DateConverter().dateToString(contact.date));
+                intent.putExtra("date", DateConverter.dateToString(contact.date));
                 intent.putExtra("photo", contact.photo);
                 intent.putExtra("status", "update");
                 intent.putExtra("id", contact.uid);

@@ -16,7 +16,7 @@ import com.example.contacts.validation.Validation;
 public class MainActivity extends AppCompatActivity {
 
     private EditText login, password;
-    public static AppDatabase db;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Validation.validateLoginPage(MainActivity.this, login.getText().toString(),
-                        password.getText().toString(), DataBaseComands.USER_ENTER);
+                        password.getText().toString(), DataBaseComands.USER_ENTER, db);
             }
         });
 
@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Validation.validateLoginPage(MainActivity.this, login.getText().toString(),
-                        password.getText().toString(), DataBaseComands.USER_REGISTRY);
+                        password.getText().toString(), DataBaseComands.USER_CHECK_REGISTRY, db);
             }
         });
     }
@@ -69,5 +69,4 @@ public class MainActivity extends AppCompatActivity {
         login.setText(savedInstanceState.getString("loginSave"));
         password.setText(savedInstanceState.getString("passwordSave"));
     }
-
 }

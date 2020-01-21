@@ -6,9 +6,6 @@ import androidx.room.PrimaryKey;
 
 import com.example.contacts.database.converter.DateConverter;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 @Entity
 public class Contact {
     @PrimaryKey(autoGenerate = true)
@@ -73,13 +70,11 @@ public class Contact {
     }
 
     public String getDate() {
-        DateConverter dateConverter = new DateConverter();
-        return dateConverter.dateToString(date);
+        return DateConverter.dateToString(date);
     }
 
     public void setDate(String date) {
-        DateConverter dateConverter = new DateConverter();
-        this.date = dateConverter.dateToTimestamp(date);
+        this.date = DateConverter.dateToTimestamp(date);
     }
 
     public String getPhoto() {

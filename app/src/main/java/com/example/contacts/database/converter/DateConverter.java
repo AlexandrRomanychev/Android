@@ -9,11 +9,8 @@ import java.util.Date;
 
 public class DateConverter {
 
-    public DateConverter(){
-
-    }
     @TypeConverter
-    public Long dateToTimestamp(String date) {
+    public static Long dateToTimestamp(String date) {
         if (date == null) {
             return null;
         } else {
@@ -27,12 +24,12 @@ public class DateConverter {
     }
 
     @TypeConverter
-    public String dateToString(Long date){
+    public static String dateToString(Long date){
         if (date == null)
             return null;
         else{
             Date localDate = new Date(date);
-            DateFormat dateFormat = new SimpleDateFormat("dd.mm.yyyy");
+            DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy");
             return dateFormat.format(localDate);
         }
     }

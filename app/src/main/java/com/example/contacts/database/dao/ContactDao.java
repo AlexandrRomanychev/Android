@@ -4,13 +4,9 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.TypeConverters;
 
-import com.example.contacts.database.converter.DateConverter;
 import com.example.contacts.database.entity.Contact;
-import com.example.contacts.database.entity.User;
 
-import java.util.Date;
 import java.util.List;
 
 @Dao
