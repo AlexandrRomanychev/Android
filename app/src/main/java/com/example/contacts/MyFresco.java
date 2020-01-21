@@ -47,7 +47,7 @@ public class MyFresco extends Application {
 
         // Уведомление один раз в день
         PeriodicWorkRequest pushRequest =
-                new PeriodicWorkRequest.Builder(UploadWorker.class, 1, TimeUnit.MINUTES)
+                new PeriodicWorkRequest.Builder(UploadWorker.class, 1, TimeUnit.DAYS)
                         .setConstraints(constraints)
                         .build();
 

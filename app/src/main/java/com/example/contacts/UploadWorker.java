@@ -10,6 +10,8 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
+import com.example.contacts.async.AsyncContactAction;
+import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 
 import java.util.ArrayList;
@@ -25,6 +27,7 @@ public class UploadWorker extends Worker {
             @NonNull WorkerParameters params) {
         super(context, params);
         contactList = new ArrayList<>();
+        new AsyncContactAction(MainActivity.db, null,null, "%", DataBaseComands.CONTACT_CONGRATULATE,Profile.getLogin(),this).execute();
     }
 
     public void setContactList(List<Contact> contacts){
@@ -50,13 +53,13 @@ public class UploadWorker extends Worker {
 
             Context context = getApplicationContext();
             Intent pushCall = new Intent(Intent.ACTION_DIAL); // дисплей с уже набранным номером телефона с заполненным человеком
-            pushCall.setData(Uri.parse("tel: "+contact.phone)); // здесь телефон: pushCall.setData(Uri.parse("tel: + profile.phone"))
+            pushCall.setData(Uri.parse(contact.phone)); // здесь телефон: pushCall.setData(Uri.parse("tel: + profile.phone"))
             PendingIntent callPendingIntent = PendingIntent.getBroadcast(context, 0, pushCall, 0);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MyFresco.CHANNEL_ID)
                     .setSmallIcon(R.drawable.plus) // profile.uri и т.д. Если не получится, то и без картинки можно
-                    .setContentTitle("Сегодня день рождения!!!")
-                    .setContentText("Позвоните именниннику торжества по имени ...!")
+                    .setContentTitle("Сегодня день рождения у "+contact.getName()+" !!!")
+                    .setContentText("Позвоните именниннику и поздравьте его!")
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .setContentIntent(callPendingIntent)
                     .addAction(R.drawable.exit, "Позвонить", callPendingIntent);

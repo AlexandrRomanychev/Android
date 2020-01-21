@@ -23,6 +23,8 @@ import com.example.contacts.database.converter.DateConverter;
 import com.example.contacts.database.entity.Contact;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.io.File;
+
 public class ContactInfo {
 
     private Profile context;
