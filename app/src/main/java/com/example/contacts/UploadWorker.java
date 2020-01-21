@@ -39,24 +39,10 @@ public class UploadWorker extends Worker {
 
     @Override
     public Result doWork() {
-        // Do the work here--in this case, upload the images.
-
-        // Do the work here--in this case, upload the images.
-
-        //////////////////////////////////////////////////////////////////
-        ////////////////// АЛГОРИТМ PUSH - УВЕДОМЛЕНИЙ( вер 1.0)//////////
-
         for (Contact contact: contactList) {
-
-            //1. Получить список контактов, у которых сегодня день рождения
-
-            //2. В цикле от [0 до countProfiles) do
-
-            //{
-
             Context context = getApplicationContext();
             Intent pushCall = new Intent(Intent.ACTION_DIAL); // дисплей с уже набранным номером телефона с заполненным человеком
-            pushCall.setData(Uri.parse(contact.phone)); // здесь телефон: pushCall.setData(Uri.parse("tel: + profile.phone"))
+            pushCall.setData(Uri.parse("tel:"+contact.phone)); // здесь телефон: pushCall.setData(Uri.parse("tel: + profile.phone"))
             PendingIntent callPendingIntent = PendingIntent.getBroadcast(context, 0, pushCall, 0);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MyFresco.CHANNEL_ID)
@@ -69,17 +55,8 @@ public class UploadWorker extends Worker {
 
             NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
 
-            // notificationId is a unique int for each notification that you must define
-            // NOTIFY_ID должен быть уникальным для каждого профиля. NOTIFY_ID должен равняться profile.uid
-            //notificationManager.notify(NOTIFY_ID, builder.build());
             notificationManager.notify(contact.getUid(), builder.build());
-
-            //}
         }
-
-        //P.S
-        ///////// Надеюсь дорогой читатель ты оценишь оригинальность :D
-
         return Result.success();
     }
 }

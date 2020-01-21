@@ -21,7 +21,6 @@ import com.example.contacts.database.converter.DateConverter;
 import com.example.contacts.database.entity.Contact;
 
 import com.example.contacts.validation.Validation;
-import com.facebook.common.logging.FLog;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 public class AddChangeInformation extends AppCompatActivity {

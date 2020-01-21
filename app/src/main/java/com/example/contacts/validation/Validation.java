@@ -2,7 +2,6 @@ package com.example.contacts.validation;
 
 import android.widget.Toast;
 import android.content.Context;
-import com.example.contacts.MainActivity;
 import com.example.contacts.Profile;
 import com.example.contacts.async.AsyncUserAction;
 import com.example.contacts.database.AppDatabase;

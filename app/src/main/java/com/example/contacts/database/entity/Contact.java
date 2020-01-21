@@ -6,7 +6,6 @@ import androidx.room.PrimaryKey;
 
 import com.example.contacts.database.converter.DateConverter;
 
-
 @Entity
 public class Contact {
     @PrimaryKey(autoGenerate = true)
