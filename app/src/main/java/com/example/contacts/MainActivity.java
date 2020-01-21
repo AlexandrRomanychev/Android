@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Validation.validateLoginPage(MainActivity.this, login.getText().toString(),
-                        password.getText().toString(), DataBaseComands.USER_REGISTRY);
+                        password.getText().toString(), DataBaseComands.USER_CHECK_REGISTRY);
             }
         });
     }
@@ -69,5 +69,4 @@ public class MainActivity extends AppCompatActivity {
         login.setText(savedInstanceState.getString("loginSave"));
         password.setText(savedInstanceState.getString("passwordSave"));
     }
-
 }
