@@ -17,20 +17,29 @@ import androidx.work.PeriodicWorkRequest;
 
 public class MyFresco extends Application {
 
+    public static final String CHANNEL_ID = "Push_chanlel";
+
     @Override
     public void onCreate() {
         super.onCreate();
         Fresco.initialize(this);
 
+
         Constraints constraints = new Constraints.Builder()
                 .setRequiresCharging(true)
                 .build();
 
-        PeriodicWorkRequest saveRequest =
-                new PeriodicWorkRequest.Builder(UploadWorker.class, 1, TimeUnit.MINUTES)
+        // Уведомление один раз в день
+        PeriodicWorkRequest pushRequest =
+                new PeriodicWorkRequest.Builder(UploadWorker.class, 1, TimeUnit.DAYS)
                         .setConstraints(constraints)
                         .build();
 
-        WorkManager.getInstance(this).enqueue(saveRequest);
+        WorkManager workManager = WorkManager.getInstance(this);
+        workManager.enqueueUniquePeriodicWork(CHANNEL_ID, ExistingPeriodicWorkPolicy.REPLACE, pushRequest);
+
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        /////////  Для передачи параметров есть объект Data и метод putString(может для login потребуется):
+        //                                                           https://codelabs.developers.google.com/codelabs/android-workmanager/#4
     }
 }
