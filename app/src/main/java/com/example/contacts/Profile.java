@@ -1,11 +1,13 @@
 package com.example.contacts;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -257,5 +259,35 @@ public class Profile extends AppCompatActivity {
         super.onRestoreInstanceState(savedInstanceState);
         search.setQuery(savedInstanceState.getString("searchSave"), true);
         sort.setSelection(savedInstanceState.getInt("sortIndexSave"));
+    }
+
+    @Override
+    public void onBackPressed() {
+        // super.onBackPressed();
+        openQuitDialog();
+    }
+
+    private void openQuitDialog() {
+        AlertDialog.Builder quitDialog = new AlertDialog.Builder(
+                Profile.this);
+        quitDialog.setTitle("Вы хотите выйти из приложения?");
+
+        quitDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                new AsyncUserAction(Profile.this, MainActivity.db, new User(loginUser, ""), MainActivity.class, DataBaseComands.USER_DELETE).execute();
+                finish();
+            }
+        });
+
+        quitDialog.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        quitDialog.show();
     }
 }
