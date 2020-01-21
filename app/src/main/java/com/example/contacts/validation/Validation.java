@@ -5,6 +5,7 @@ import android.content.Context;
 import com.example.contacts.MainActivity;
 import com.example.contacts.Profile;
 import com.example.contacts.async.AsyncUserAction;
+import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.User;
 
@@ -17,13 +18,13 @@ public class Validation {
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
     public static void validateLoginPage(Context activity, String login,
-                                         String password, DataBaseComands status){
+                                         String password, DataBaseComands status, AppDatabase db){
         if (validateString(login))
             Toast.makeText(activity, "Некорректный логин", Toast.LENGTH_SHORT).show();
         else if (validateString(password))
             Toast.makeText(activity, "Некорректный пароль", Toast.LENGTH_SHORT).show();
         else {
-            new AsyncUserAction(activity, MainActivity.db,
+            new AsyncUserAction(activity, db,
                     new User(login, password),
                     Profile.class, status).execute();
         }

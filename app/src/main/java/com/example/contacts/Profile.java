@@ -4,6 +4,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -20,6 +22,7 @@ import android.widget.LinearLayout;
 
 import com.example.contacts.async.AsyncContactAction;
 import com.example.contacts.async.AsyncUserAction;
+import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 import com.example.contacts.database.entity.User;
@@ -37,6 +40,7 @@ public class Profile extends AppCompatActivity {
     private SearchView search;
     private Spinner sort;
     private static String loginUser = "";
+    private AppDatabase db;
 
     private static final int CONTACT_PICK_RESULT = 1;
     private static final int REQUEST_CODE_PERMISSION_READ_CONTACTS = 1;
@@ -56,24 +60,24 @@ public class Profile extends AppCompatActivity {
     public void refreshListOfContacts(String rule){
         switch(sort.getSelectedItemPosition()){
             case 0: {
-                new AsyncContactAction(MainActivity.db, Profile.this, null, rule,
+                new AsyncContactAction(db, Profile.this, null, rule,
                         DataBaseComands.CONTACT_GET_ALL, loginUser, null).execute();
                 break;
             }
             case 1: {
-                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_UP, loginUser, null).execute();
+                new AsyncContactAction(db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_UP, loginUser, null).execute();
                 break;
             }
             case 2:{
-                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_DOWN, loginUser, null).execute();
+                new AsyncContactAction(db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_NAME_DOWN, loginUser, null).execute();
                 break;
             }
             case 3:{
-                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_UP, loginUser, null).execute();
+                new AsyncContactAction(db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_UP, loginUser, null).execute();
                 break;
             }
             case 4:{
-                new AsyncContactAction(MainActivity.db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_DOWN, loginUser, null).execute();
+                new AsyncContactAction(db, Profile.this, null, "%"+search.getQuery().toString()+"%", DataBaseComands.CONTACT_SORT_DATE_DOWN, loginUser, null).execute();
                 break;
             }
         }
@@ -89,6 +93,8 @@ public class Profile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_profiles);
+
+        db = Room.databaseBuilder(Profile.this, AppDatabase.class, "contacts").build();
 
         final Bundle arguments = getIntent().getExtras();
         loginUser = arguments.getString("login");
@@ -190,7 +196,7 @@ public class Profile extends AppCompatActivity {
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AsyncUserAction(Profile.this, MainActivity.db, new User(loginUser, ""), MainActivity.class, DataBaseComands.USER_DELETE).execute();
+                new AsyncUserAction(Profile.this, db, new User(loginUser, ""), MainActivity.class, DataBaseComands.USER_DELETE).execute();
                 finish();
             }
         });
@@ -275,7 +281,7 @@ public class Profile extends AppCompatActivity {
         quitDialog.setPositiveButton("Да", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                new AsyncUserAction(Profile.this, MainActivity.db, new User(loginUser, ""), MainActivity.class, DataBaseComands.USER_DELETE).execute();
+                new AsyncUserAction(Profile.this, db, new User(loginUser, ""), MainActivity.class, DataBaseComands.USER_DELETE).execute();
                 finish();
             }
         });

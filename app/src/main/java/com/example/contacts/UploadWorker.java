@@ -7,10 +7,12 @@ import android.net.Uri;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.room.Room;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
 import com.example.contacts.async.AsyncContactAction;
+import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.entity.Contact;
 
@@ -27,7 +29,8 @@ public class UploadWorker extends Worker {
             @NonNull WorkerParameters params) {
         super(context, params);
         contactList = new ArrayList<>();
-        new AsyncContactAction(MainActivity.db, null,null, "%", DataBaseComands.CONTACT_CONGRATULATE,Profile.getLogin(),this).execute();
+        AppDatabase db = db = Room.databaseBuilder(context, AppDatabase.class, "contacts").build();
+        new AsyncContactAction(db, null,null, "%", DataBaseComands.CONTACT_CONGRATULATE,Profile.getLogin(),this).execute();
     }
 
     public void setContactList(List<Contact> contacts){

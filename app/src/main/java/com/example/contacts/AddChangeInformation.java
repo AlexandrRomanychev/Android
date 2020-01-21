@@ -3,6 +3,7 @@ package com.example.contacts;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.room.Room;
 
 import android.Manifest;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.example.contacts.async.AsyncContactAction;
+import com.example.contacts.database.AppDatabase;
 import com.example.contacts.database.DataBaseComands;
 import com.example.contacts.database.converter.DateConverter;
 import com.example.contacts.database.entity.Contact;
@@ -31,13 +33,14 @@ public class AddChangeInformation extends AppCompatActivity {
     private DataBaseComands status;
     private String userLogin = "";
     private int REQUEST_CODE_PERMISSION_READ_EXTERNAL_STORAGE = 1;
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         status = DataBaseComands.CONTACT_ADD;
-        FLog.setMinimumLoggingLevel(FLog.VERBOSE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_change_information);
+        db = Room.databaseBuilder(AddChangeInformation.this, AppDatabase.class, "contacts").build();
 
         // Получаю все аргументы
         final Bundle arguments = getIntent().getExtras();
@@ -57,7 +60,7 @@ public class AddChangeInformation extends AppCompatActivity {
                     case CONTACT_ADD:{
                         if (Validation.validateContactPage(AddChangeInformation.this, name.getText().toString(),
                                 date.getText().toString(), phone.getText().toString())) {
-                            new AsyncContactAction(MainActivity.db, null,
+                            new AsyncContactAction(db, null,
                                     new Contact(name.getText().toString(),
                                             DateConverter.dateToTimestamp(date.getText().toString()), phone.getText().toString(),
                                             uri, userLogin), "%", DataBaseComands.CONTACT_ADD, userLogin, null).execute();
@@ -68,7 +71,7 @@ public class AddChangeInformation extends AppCompatActivity {
                     case CONTACT_UPDATE:{
                         if (Validation.validateContactPage(AddChangeInformation.this, name.getText().toString(),
                                 date.getText().toString(), phone.getText().toString())){
-                            new AsyncContactAction(MainActivity.db, null,
+                            new AsyncContactAction(db, null,
                                     new Contact( name.getText().toString(),
                                             DateConverter.dateToTimestamp(date.getText().toString()), phone.getText().toString(),
                                             uri, arguments.getInt("id"), userLogin), "%", DataBaseComands.CONTACT_UPDATE, userLogin, null).execute();
