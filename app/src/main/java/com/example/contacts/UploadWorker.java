@@ -43,7 +43,7 @@ public class UploadWorker extends Worker {
             Context context = getApplicationContext();
             Intent pushCall = new Intent(Intent.ACTION_DIAL); // дисплей с уже набранным номером телефона с заполненным человеком
             pushCall.setData(Uri.parse("tel:"+contact.phone)); // здесь телефон: pushCall.setData(Uri.parse("tel: + profile.phone"))
-            PendingIntent callPendingIntent = PendingIntent.getBroadcast(context, 0, pushCall, 0);
+            PendingIntent callPendingIntent = PendingIntent.getActivity(context, 0, pushCall, 0);
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, MyFresco.CHANNEL_ID)
                     .setSmallIcon(R.drawable.plus) // profile.uri и т.д. Если не получится, то и без картинки можно
