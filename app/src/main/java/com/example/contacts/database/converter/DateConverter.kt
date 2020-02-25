@@ -14,7 +14,7 @@ object DateConverter {
             null
         } else {
             try {
-                val localDate = SimpleDateFormat("dd.mm.yyyy").parse(date)
+                val localDate = SimpleDateFormat("dd.MM.yyyy").parse(date)
                 localDate!!.time
             } catch (e: ParseException) {
                 null

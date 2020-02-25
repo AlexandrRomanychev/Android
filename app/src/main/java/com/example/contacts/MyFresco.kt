@@ -32,7 +32,7 @@ class MyFresco : Application() {
                 .setRequiresCharging(true)
                 .build()
         // Уведомление один раз в день
-        val pushRequest = PeriodicWorkRequest.Builder(UploadWorker::class.java, 1, TimeUnit.DAYS)
+        val pushRequest = PeriodicWorkRequest.Builder(UploadWorker::class.java, 1, TimeUnit.MINUTES)
                 .setConstraints(constraints)
                 .build()
         val workManager = WorkManager.getInstance(this)
