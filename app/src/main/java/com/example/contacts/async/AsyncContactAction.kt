@@ -7,6 +7,7 @@ import com.example.contacts.Profile
 import com.example.contacts.UploadWorker
 import com.example.contacts.database.AppDatabase
 import com.example.contacts.database.DataBaseComands
+import com.example.contacts.database.converter.DateConverter
 import com.example.contacts.database.converter.DateConverter.dateToString
 import com.example.contacts.database.entity.Contact
 import java.util.*
@@ -58,7 +59,7 @@ class AsyncContactAction(private val db: AppDatabase, private val activity: Prof
                 val stringBuffer = StringBuffer(strDate!!)
                 val contactsBirthday: MutableList<Contact> = ArrayList()
                 for (contact in contacts!!) {
-                    if (contact!!.getDate().contains(stringBuffer.delete(5, 10).toString())) contactsBirthday.add(contact)
+                    if (dateToString(contact!!.date)!!.contains(stringBuffer.delete(5, 10).toString())) contactsBirthday.add(contact)
                 }
                 worker!!.setContactList(contactsBirthday)
             }

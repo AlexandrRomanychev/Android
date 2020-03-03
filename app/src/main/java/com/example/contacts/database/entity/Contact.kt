@@ -44,13 +44,4 @@ class Contact {
         uid = id
         this.login = login
     }
-
-    fun getDate(): String {
-        return DateConverter.dateToString(date).toString()
-    }
-
-    fun setDate(date: String?) {
-        this.date = DateConverter.dateToTimestamp(date)!!
-    }
-
 }

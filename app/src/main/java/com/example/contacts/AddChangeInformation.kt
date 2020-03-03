@@ -2,12 +2,17 @@ package com.example.contacts
 
 import android.Manifest
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.text.format.DateUtils
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -15,21 +20,48 @@ import androidx.room.Room
 import com.example.contacts.async.AsyncContactAction
 import com.example.contacts.database.AppDatabase
 import com.example.contacts.database.DataBaseComands
+import com.example.contacts.database.converter.DateConverter
 import com.example.contacts.database.converter.DateConverter.dateToTimestamp
 import com.example.contacts.database.entity.Contact
 import com.example.contacts.validation.Validation.validateContactPage
 import com.facebook.drawee.view.SimpleDraweeView
+import java.util.*
+
 
 class AddChangeInformation : AppCompatActivity() {
     private var name: EditText? = null
     private var phone: EditText? = null
-    private var date: EditText? = null
+    private var date: TextView? = null
     private var ImageProfile: SimpleDraweeView? = null
     private var selectedImage: Uri? = null
     private var status: DataBaseComands? = null
     private var userLogin: String? = ""
     private val REQUEST_CODE_PERMISSION_READ_EXTERNAL_STORAGE = 1
     private var db: AppDatabase? = null
+    private var dateAndTime: Calendar = Calendar.getInstance()
+
+    // установка начальных даты и времени
+    private fun setInitialDateTime() {
+        date!!.setText(DateConverter.dateToString(dateAndTime.timeInMillis))
+    }
+
+    // отображаем диалоговое окно для выбора даты
+    fun setDate(v: View?) {
+        DatePickerDialog(this@AddChangeInformation, d,
+                dateAndTime[Calendar.YEAR],
+                dateAndTime[Calendar.MONTH],
+                dateAndTime[Calendar.DAY_OF_MONTH])
+                .show()
+    }
+
+    // установка обработчика выбора даты
+    var d = OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        dateAndTime[Calendar.YEAR] = year
+        dateAndTime[Calendar.MONTH] = monthOfYear
+        dateAndTime[Calendar.DAY_OF_MONTH] = dayOfMonth
+        setInitialDateTime()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         status = DataBaseComands.CONTACT_ADD
         super.onCreate(savedInstanceState)
@@ -41,6 +73,12 @@ class AddChangeInformation : AppCompatActivity() {
         name = findViewById(R.id.name)
         phone = findViewById(R.id.phone)
         date = findViewById(R.id.birthday)
+
+        date!!.setOnClickListener{
+            //setInitialDateTime()
+            setDate(it)
+        }
+
         val save = findViewById<Button>(R.id.save)
         save.setOnClickListener {
             val uri = if (selectedImage == null) (if (arguments.getString("photo") == null) "" else arguments.getString("photo")!!) else selectedImage.toString()
