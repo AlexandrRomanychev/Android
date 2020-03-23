@@ -8,8 +8,6 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/background_light"
-    android:backgroundTint="@color/background"
     tools:context=".Profile">
 
 
@@ -44,7 +42,6 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginTop="20dp"
-                android:background="@android:color/white"
                 android:paddingStart="10dp"
                 android:text="@string/sort" />
 
@@ -55,7 +52,6 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
-                android:background="@android:color/white"
                 android:entries="@array/sorts"/>
 
         </LinearLayout>
@@ -67,7 +63,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
             android:layout_marginTop="20dp"
-            android:background="@android:color/white"
             android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
@@ -96,7 +91,6 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="25dp"
-            fresco:backgroundTint="@android:color/holo_green_dark"
             android:clickable="true"
             android:src="@drawable/importicon"
             android:visibility="invisible" />
@@ -107,7 +101,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="10dp"
-            fresco:backgroundTint="@android:color/holo_green_dark"
             android:clickable="true"
             android:src="@drawable/plus"
             android:visibility="invisible" />
@@ -118,7 +111,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="10dp"
-            fresco:backgroundTint="@android:color/holo_green_dark"
             android:clickable="true"
             android:src="@drawable/plus" />
     </LinearLayout>

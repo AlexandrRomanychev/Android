@@ -33,7 +33,6 @@ class ContactInfo(private val context: Profile, private val contact: Contact) {
         val textView = TextView(context)
         textView.text = text
         textView.textSize = TEXT_SIZE
-        textView.setBackgroundResource(R.color.textField)
         textView.layoutParams = layoutParams
         return textView
     }
@@ -67,7 +66,6 @@ class ContactInfo(private val context: Profile, private val contact: Contact) {
         val delete = Button(context)
         delete.text = text
         delete.textSize = BUTTON_TEXT_SIZE
-        delete.setBackgroundResource(R.color.delete)
         delete.layoutParams = layoutParams
         delete.setOnClickListener {
             val dialog = generateLocalDeleteDialog("Вы действительно хотите удалить контакт?")
@@ -84,7 +82,6 @@ class ContactInfo(private val context: Profile, private val contact: Contact) {
         congratulate.text = text
         congratulate.textSize = BUTTON_TEXT_SIZE
         congratulate.layoutParams = layoutParams
-        congratulate.setBackgroundResource(R.color.congratulation)
         congratulate.setOnClickListener(View.OnClickListener {
             //Проверка на разрешение звонков
             if (context.checkSelfPermission(Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {

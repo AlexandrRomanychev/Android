@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/background_light"
-    android:backgroundTint="@color/background"
-    >
+    android:layout_height="match_parent">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -24,7 +21,6 @@
                 android:layout_marginBottom="30dp"
                 android:text="@string/authentication"
                 android:fontFamily="monospace"
-                android:textColor="@color/colorPrimary"
                 android:textSize="18sp"
                 android:textStyle="italic" />
 
@@ -35,11 +31,8 @@
                 android:layout_height="38dp"
                 android:layout_marginBottom="10dp"
                 android:paddingStart="10dp"
-                android:background="@android:color/darker_gray"
-                android:backgroundTint="@android:color/background_light"
                 android:hint="@string/login"
-                android:textSize="16sp"
-                tools:ignore="RtlSymmetry"/>
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/password"
@@ -49,8 +42,6 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="20dp"
                 android:paddingStart="10dp"
-                android:background="@android:color/darker_gray"
-                android:backgroundTint="@android:color/background_light"
                 android:hint="@string/password"
                 android:inputType="textPassword"
                 android:textSize="16sp" />
@@ -67,10 +58,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="55dp"
                     android:width="100dp"
-                    android:backgroundTint="@color/button"
                     android:fontFamily="casual"
                     android:text="@string/enter"
-                    android:textColor="@android:color/background_light"
                     android:textSize="10sp"
                     android:textStyle="bold" />
 
@@ -79,10 +68,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:width="100dp"
-                    android:backgroundTint="@color/button"
                     android:fontFamily="casual"
                     android:text="@string/registry"
-                    android:textColor="@android:color/background_light"
                     android:textSize="10sp"
                     android:textStyle="bold" />
             </LinearLayout>
