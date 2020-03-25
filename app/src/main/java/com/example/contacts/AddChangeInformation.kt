@@ -42,6 +42,7 @@ class AddChangeInformation : AppCompatActivity() {
     private val REQUEST_CODE_PERMISSION_READ_EXTERNAL_STORAGE = 1
     private var db: AppDatabase? = null
     private var dateAndTime: Calendar = Calendar.getInstance()
+    private var wasChanged: Boolean = true
 
     // установка начальных даты и времени
     private fun setInitialDateTime() {
@@ -88,13 +89,21 @@ class AddChangeInformation : AppCompatActivity() {
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p3 >0)
-                    if (!(p0!![p3-1] >= '0' && p0!![p3-1]<='9' || p0!![p3-1].equals('(') || p0!![p3-1].equals(')') || p0!![p3-1].equals('+'))){
-                        phone!!.setText(p0!!.subSequence(p1, p3-1))
+                wasChanged = false
+                var res: String = ""
+                if (p0 != null && p3 > 0) {
+                    for (a in p0) {
+                        if (a in '0'..'9' || a == ')' || a == '(' || a == '+')
+                            res += a
+                        else wasChanged = true
                     }
+                    if (wasChanged)
+                        phone!!.setText(res)
+                }
             }
         })
         date = findViewById(R.id.birthday)
