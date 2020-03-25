@@ -77,9 +77,11 @@ class AddChangeInformation : AppCompatActivity() {
         dateAndTime[Calendar.YEAR] = year
         dateAndTime[Calendar.MONTH] = monthOfYear
         dateAndTime[Calendar.DAY_OF_MONTH] = dayOfMonth
+        isOpeningDate = false
         setInitialDateTime()
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         status = DataBaseComands.CONTACT_ADD
         super.onCreate(savedInstanceState)
@@ -201,6 +203,7 @@ class AddChangeInformation : AppCompatActivity() {
     }
 
     // получение сохраненного состояния
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
         name!!.setText(savedInstanceState.getString("nameSave"))
