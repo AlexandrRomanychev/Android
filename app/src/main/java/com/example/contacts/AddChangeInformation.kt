@@ -8,6 +8,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.format.DateUtils
 import android.view.View
 import android.widget.Button
@@ -80,6 +82,21 @@ class AddChangeInformation : AppCompatActivity() {
 
         name = findViewById(R.id.name)
         phone = findViewById(R.id.phone)
+
+        phone!!.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p3 >0)
+                    if (!(p0!![p3-1] >= '0' && p0!![p3-1]<='9' || p0!![p3-1].equals('(') || p0!![p3-1].equals(')') || p0!![p3-1].equals('+'))){
+                        phone!!.setText(p0!!.subSequence(p1, p3-1))
+                    }
+            }
+        })
         date = findViewById(R.id.birthday)
 
         date!!.setOnClickListener{
