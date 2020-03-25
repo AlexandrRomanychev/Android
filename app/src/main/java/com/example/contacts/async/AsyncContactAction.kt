@@ -12,10 +12,9 @@ import com.example.contacts.database.converter.DateConverter.dateToString
 import com.example.contacts.database.entity.Contact
 import java.util.*
 
-class AsyncContactAction(private val db: AppDatabase, private val activity: Profile?, private val contact: Contact?, private val rule: String, private val status: DataBaseComands, login: String, worker: UploadWorker?) : AsyncTask<Void?, Void?, Int>() {
+class AsyncContactAction(private val db: AppDatabase, private val activity: Profile?, private val contact: Contact?, private val rule: String, private val status: DataBaseComands, worker: UploadWorker?) : AsyncTask<Void?, Void?, Int>() {
     private var contacts: List<Contact>?
     private val worker: UploadWorker?
-    private val login: String
 
     override fun doInBackground(vararg params: Void?): Int? {
         when (status) {
@@ -26,22 +25,22 @@ class AsyncContactAction(private val db: AppDatabase, private val activity: Prof
                 db.contactDao()!!.delete(contact)
             }
             DataBaseComands.CONTACT_GET_ALL, DataBaseComands.CONTACT_CONGRATULATE -> {
-                contacts = db.contactDao()!!.getAll(rule, login)
+                contacts = db.contactDao()!!.getAll(rule)
             }
             DataBaseComands.CONTACT_SORT_NAME_UP -> {
-                contacts = db.contactDao()!!.getSortedByNameUp(rule, login)
+                contacts = db.contactDao()!!.getSortedByNameUp(rule)
             }
             DataBaseComands.CONTACT_SORT_NAME_DOWN -> {
-                contacts = db.contactDao()!!.getSortedByNameDown(rule, login)
+                contacts = db.contactDao()!!.getSortedByNameDown(rule)
             }
             DataBaseComands.CONTACT_SORT_DATE_UP -> {
-                contacts = db.contactDao()!!.getSortedByDateUp(rule, login)
+                contacts = db.contactDao()!!.getSortedByDateUp(rule)
             }
             DataBaseComands.CONTACT_SORT_DATE_DOWN -> {
-                contacts = db.contactDao()!!.getSortedByDateDown(rule, login)
+                contacts = db.contactDao()!!.getSortedByDateDown(rule)
             }
             DataBaseComands.CONTACT_UPDATE -> {
-                db.contactDao()!!.updateContact(contact!!.name, contact!!.date, contact!!.phone, contact!!.photo, intArrayOf(contact!!.uid), login!!)
+                db.contactDao()!!.updateContact(contact!!.name, contact!!.date, contact!!.phone, contact!!.photo, intArrayOf(contact!!.uid))
             }
         }
         return 1
@@ -68,7 +67,6 @@ class AsyncContactAction(private val db: AppDatabase, private val activity: Prof
 
     init {
         contacts = ArrayList()
-        this.login = login
         this.worker = worker
     }
 }

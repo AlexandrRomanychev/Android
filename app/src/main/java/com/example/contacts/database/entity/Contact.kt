@@ -22,26 +22,21 @@ class Contact {
     @JvmField
     @ColumnInfo(name = "photo")
     var photo: String
-    @JvmField
-    @ColumnInfo(name = "login")
-    var login: String
 
     constructor(name: String, date: Long, phone: String,
-                photo: String, login: String) {
+                photo: String) {
         this.name = name
         this.date = date
         this.phone = phone
         this.photo = photo
-        this.login = login
     }
 
     constructor(name: String, date: Long, phone: String,
-                photo: String, id: Int, login: String) {
+                photo: String, id: Int) {
         this.name = name
         this.date = date
         this.phone = phone
         this.photo = photo
         uid = id
-        this.login = login
     }
 }

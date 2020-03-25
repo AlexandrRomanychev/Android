@@ -69,7 +69,7 @@ class AddChangeInformation : AppCompatActivity() {
         db = Room.databaseBuilder(this@AddChangeInformation, AppDatabase::class.java, "contacts").build()
         // Получаю все аргументы
         val arguments = intent.extras
-        userLogin = arguments!!.getString("login")
+
         name = findViewById(R.id.name)
         phone = findViewById(R.id.phone)
         date = findViewById(R.id.birthday)
@@ -81,7 +81,7 @@ class AddChangeInformation : AppCompatActivity() {
 
         val save = findViewById<Button>(R.id.save)
         save.setOnClickListener {
-            val uri = if (selectedImage == null) (if (arguments.getString("photo") == null) "" else arguments.getString("photo")!!) else selectedImage.toString()
+            val uri = if (selectedImage == null) (if (arguments!!.getString("photo") == null) "" else arguments.getString("photo")!!) else selectedImage.toString()
             when (status) {
                 DataBaseComands.CONTACT_ADD -> {
                     if (validateContactPage(this@AddChangeInformation, name!!.text.toString(),
@@ -89,7 +89,7 @@ class AddChangeInformation : AppCompatActivity() {
                         AsyncContactAction(db!!, null,
                                 Contact(name!!.text.toString(),
                                         dateToTimestamp(date!!.text.toString())!!, phone!!.text.toString(),
-                                        uri, userLogin!!), "%", DataBaseComands.CONTACT_ADD, userLogin!!, null).execute()
+                                        uri), "%", DataBaseComands.CONTACT_ADD,  null).execute()
                         finish()
                     }
                 }
@@ -99,7 +99,7 @@ class AddChangeInformation : AppCompatActivity() {
                         AsyncContactAction(db!!, null,
                                 Contact(name!!.text.toString(),
                                         dateToTimestamp(date!!.text.toString())!!, phone!!.text.toString(),
-                                        uri, arguments.getInt("id"), userLogin!!), "%", DataBaseComands.CONTACT_UPDATE, userLogin!!, null).execute()
+                                        uri, arguments!!.getInt("id")), "%", DataBaseComands.CONTACT_UPDATE, null).execute()
                         finish()
                     }
                 }
@@ -119,11 +119,11 @@ class AddChangeInformation : AppCompatActivity() {
             }
         }
         // Подставляем данные в TextView профиля
-        name!!.setText(arguments.getString("Name"))
-        phone!!.setText(arguments.getString("Tellephone"))
-        date!!.setText(arguments.getString("date"))
-        if (arguments.getString("photo") != null) ImageProfile!!.setImageURI(Uri.parse(arguments.getString("photo")))
-        val contactStatus = arguments.getString("status")
+        name!!.setText(arguments!!.getString("Name"))
+        phone!!.setText(arguments!!.getString("Tellephone"))
+        date!!.setText(arguments!!.getString("date"))
+        if (arguments!!.getString("photo") != null) ImageProfile!!.setImageURI(Uri.parse(arguments.getString("photo")))
+        val contactStatus = arguments!!.getString("status")
         if (contactStatus != null) {
             status = DataBaseComands.CONTACT_UPDATE
         }

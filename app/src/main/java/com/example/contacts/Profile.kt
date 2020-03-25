@@ -21,11 +21,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.room.Room
 import com.example.contacts.async.AsyncContactAction
-import com.example.contacts.async.AsyncUserAction
 import com.example.contacts.database.AppDatabase
 import com.example.contacts.database.DataBaseComands
 import com.example.contacts.database.entity.Contact
-import com.example.contacts.database.entity.User
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class Profile : AppCompatActivity() {
@@ -51,19 +49,19 @@ class Profile : AppCompatActivity() {
         when (sort!!.selectedItemPosition) {
             0 -> {
                 AsyncContactAction(db!!, this@Profile, null, rule!!,
-                        DataBaseComands.CONTACT_GET_ALL, login!!, null).execute()
+                        DataBaseComands.CONTACT_GET_ALL, null).execute()
             }
             1 -> {
-                AsyncContactAction(db!!, this@Profile, null, "%" + search!!.query.toString() + "%", DataBaseComands.CONTACT_SORT_NAME_UP, login!!, null).execute()
+                AsyncContactAction(db!!, this@Profile, null, "%" + search!!.query.toString() + "%", DataBaseComands.CONTACT_SORT_NAME_UP, null).execute()
             }
             2 -> {
-                AsyncContactAction(db!!, this@Profile, null, "%" + search!!.query.toString() + "%", DataBaseComands.CONTACT_SORT_NAME_DOWN, login!!, null).execute()
+                AsyncContactAction(db!!, this@Profile, null, "%" + search!!.query.toString() + "%", DataBaseComands.CONTACT_SORT_NAME_DOWN, null).execute()
             }
             3 -> {
-                AsyncContactAction(db!!, this@Profile, null, "%" + search!!.query.toString() + "%", DataBaseComands.CONTACT_SORT_DATE_UP, login!!, null).execute()
+                AsyncContactAction(db!!, this@Profile, null, "%" + search!!.query.toString() + "%", DataBaseComands.CONTACT_SORT_DATE_UP, null).execute()
             }
             4 -> {
-                AsyncContactAction(db!!, this@Profile, null, "%" + search!!.query.toString() + "%", DataBaseComands.CONTACT_SORT_DATE_DOWN, login!!, null).execute()
+                AsyncContactAction(db!!, this@Profile, null, "%" + search!!.query.toString() + "%", DataBaseComands.CONTACT_SORT_DATE_DOWN, null).execute()
             }
         }
     }
@@ -78,9 +76,6 @@ class Profile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.list_profiles)
         db = Room.databaseBuilder(this@Profile, AppDatabase::class.java, "contacts").build()
-        val arguments = intent.extras
-        login = arguments!!.getString("login")
-        this.title = "Вы авторизованы как: $login"
         profiles = findViewById(R.id.profiles)
         sort = findViewById(R.id.spinner_sort)
         search = findViewById(R.id.search_profile)
@@ -129,11 +124,10 @@ class Profile : AppCompatActivity() {
             intent.putExtra("ID", -1)
             intent.putExtra("Name", "")
             intent.putExtra("Tellephone", "")
-            intent.putExtra("login", login)
             startActivity(intent)
         }
         btn_add = findViewById(R.id.add_profile)
-        btn_add!!.setOnClickListener(View.OnClickListener {
+        btn_add!!.setOnClickListener({
             // Если была нажата только один раз, то варианты добавления контакта появяться.
 // При повторном - исчезают
             if (!flag) {
@@ -151,7 +145,6 @@ class Profile : AppCompatActivity() {
         })
         exit = findViewById(R.id.exit)
         exit!!.setOnClickListener {
-            AsyncUserAction(this@Profile, db!!, User(login!!, ""), MainActivity::class.java, DataBaseComands.USER_DELETE).execute()
             finish()
         }
     }
@@ -187,7 +180,6 @@ class Profile : AppCompatActivity() {
                         intent.putExtra("ID", Id.toInt())
                         intent.putExtra("Name", Name)
                         intent.putExtra("Tellephone", PhoneNumber)
-                        intent.putExtra("login", login)
                         startActivity(intent)
                     }
                 }
@@ -220,7 +212,6 @@ class Profile : AppCompatActivity() {
                 this@Profile)
         quitDialog.setTitle("Вы хотите выйти из приложения?")
         quitDialog.setPositiveButton("Да") { dialog, which ->
-            AsyncUserAction(this@Profile, db!!, User(login!!, ""), MainActivity::class.java, DataBaseComands.USER_DELETE).execute()
             finish()
         }
         quitDialog.setNegativeButton("Нет") { dialog, which -> dialog.cancel() }

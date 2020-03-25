@@ -58,7 +58,7 @@ class UploadWorker(
             val notificationManager = NotificationManagerCompat.from(context)
             notificationManager.notify(contact.uid, builder.build())
         }*/
-        AsyncContactAction(db, null, null, "%", DataBaseComands.CONTACT_CONGRATULATE, login!!, this).execute()
+        AsyncContactAction(db, null, null, "%", DataBaseComands.CONTACT_CONGRATULATE, this).execute()
         return Result.success()
     }
 

@@ -5,10 +5,7 @@ import android.widget.Button
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
-import com.example.contacts.async.AsyncUserAction
 import com.example.contacts.database.AppDatabase
-import com.example.contacts.database.DataBaseComands
-import com.example.contacts.validation.Validation.validateLoginPage
 
 class MainActivity : AppCompatActivity() {
     private var login: EditText? = null
@@ -22,15 +19,6 @@ class MainActivity : AppCompatActivity() {
         password = findViewById(R.id.password)
         val enter = findViewById<Button>(R.id.authorization)
         val registry = findViewById<Button>(R.id.registration)
-        AsyncUserAction(this@MainActivity, db!!, null, Profile::class.java, DataBaseComands.USER_GET_LOGINED).execute()
-        enter.setOnClickListener {
-            validateLoginPage(this@MainActivity, login!!.text.toString(),
-                    password!!.text.toString(), DataBaseComands.USER_ENTER, db)
-        }
-        registry.setOnClickListener {
-            validateLoginPage(this@MainActivity, login!!.text.toString(),
-                    password!!.text.toString(), DataBaseComands.USER_CHECK_REGISTRY, db)
-        }
     }
 
     // сохранение состояния

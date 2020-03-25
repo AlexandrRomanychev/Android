@@ -53,7 +53,7 @@ class ContactInfo(private val context: Profile, private val contact: Contact) {
         builder.setTitle(text)
         builder.setPositiveButton("ДА") { dialog, id ->
             AsyncContactAction(db, null, contact, "%",
-                    DataBaseComands.CONTACT_DELETE, contact.login, null).execute()
+                    DataBaseComands.CONTACT_DELETE, null).execute()
             context.refreshListOfContacts("%")
         }
         builder.setNegativeButton("НЕТ") { dialog, id -> dialog.cancel() }
@@ -115,7 +115,6 @@ class ContactInfo(private val context: Profile, private val contact: Contact) {
             intent.putExtra("photo", contact.photo)
             intent.putExtra("status", "update")
             intent.putExtra("id", contact.uid)
-            intent.putExtra("login", contact.login)
             context.startActivity(intent)
         }
         return horizontalScrollView
