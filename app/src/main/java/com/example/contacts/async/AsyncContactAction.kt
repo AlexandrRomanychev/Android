@@ -12,7 +12,7 @@ import com.example.contacts.database.converter.DateConverter.dateToString
 import com.example.contacts.database.entity.Contact
 import java.util.*
 
-class AsyncContactAction(private val db: AppDatabase, private val activity: Profile?, private val contact: Contact?, private val rule: String, private val status: DataBaseComands, worker: UploadWorker?) : AsyncTask<Void?, Void?, Int>() {
+class AsyncContactAction(private val db: AppDatabase, private val activity: Profile?, private val contact: Contact?, private val rule: String?, private val status: DataBaseComands, worker: UploadWorker?) : AsyncTask<Void?, Void?, Int>() {
     private var contacts: List<Contact>?
     private val worker: UploadWorker?
 
@@ -40,7 +40,7 @@ class AsyncContactAction(private val db: AppDatabase, private val activity: Prof
                 contacts = db.contactDao()!!.getSortedByDateDown(rule)
             }
             DataBaseComands.CONTACT_UPDATE -> {
-                db.contactDao()!!.updateContact(contact!!.name, contact!!.date, contact!!.phone, contact!!.photo, intArrayOf(contact!!.uid))
+                db.contactDao()!!.updateContact(contact!!.name, contact.date, contact.phone, contact.photo, intArrayOf(contact.uid))
             }
         }
         return 1

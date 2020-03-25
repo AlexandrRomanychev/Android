@@ -10,7 +10,6 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.room.Room
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.example.contacts.Profile.Companion.login
 import com.example.contacts.async.AsyncContactAction
 import com.example.contacts.database.AppDatabase
 import com.example.contacts.database.DataBaseComands

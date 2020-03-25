@@ -7,15 +7,15 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.text.format.DateUtils
-import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -43,6 +43,7 @@ class AddChangeInformation : AppCompatActivity() {
     private var db: AppDatabase? = null
     private var dateAndTime: Calendar = Calendar.getInstance()
     private var wasChanged: Boolean = true
+    private var isOpeningDate: Boolean = false
 
     // установка начальных даты и времени
     private fun setInitialDateTime() {
@@ -57,16 +58,22 @@ class AddChangeInformation : AppCompatActivity() {
     }
 
     // отображаем диалоговое окно для выбора даты
-    fun setDate(v: View?) {
-        DatePickerDialog(this@AddChangeInformation, d,
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun setDate() {
+        isOpeningDate = true
+        var dialog = DatePickerDialog(this@AddChangeInformation, d,
                 dateAndTime[Calendar.YEAR],
                 dateAndTime[Calendar.MONTH],
                 dateAndTime[Calendar.DAY_OF_MONTH])
-                .show()
+        dialog.setOnDateSetListener(d)
+        dialog.setOnCancelListener {
+            isOpeningDate = false
+        }
+        dialog.show()
     }
 
     // установка обработчика выбора даты
-    var d = OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+    var d = OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
         dateAndTime[Calendar.YEAR] = year
         dateAndTime[Calendar.MONTH] = monthOfYear
         dateAndTime[Calendar.DAY_OF_MONTH] = dayOfMonth
@@ -110,7 +117,7 @@ class AddChangeInformation : AppCompatActivity() {
 
         date!!.setOnClickListener{
             //setInitialDateTime()
-            setDate(it)
+            setDate()
         }
 
         val save = findViewById<Button>(R.id.save)
@@ -154,10 +161,10 @@ class AddChangeInformation : AppCompatActivity() {
         }
         // Подставляем данные в TextView профиля
         name!!.setText(arguments!!.getString("Name"))
-        phone!!.setText(arguments!!.getString("Tellephone"))
-        date!!.setText(arguments!!.getString("date"))
-        if (arguments!!.getString("photo") != null) ImageProfile!!.setImageURI(Uri.parse(arguments.getString("photo")))
-        val contactStatus = arguments!!.getString("status")
+        phone!!.setText(arguments.getString("Tellephone"))
+        date!!.text = arguments.getString("date")
+        if (arguments.getString("photo") != null) ImageProfile!!.setImageURI(Uri.parse(arguments.getString("photo")))
+        val contactStatus = arguments.getString("status")
         if (contactStatus != null) {
             status = DataBaseComands.CONTACT_UPDATE
         }
@@ -186,6 +193,7 @@ class AddChangeInformation : AppCompatActivity() {
         outState.putString("nameSave", name!!.text.toString())
         outState.putString("birthdaySave", date!!.text.toString())
         outState.putString("phoneSave", phone!!.text.toString())
+        outState.putString("isDate", isOpeningDate.toString())
         if (selectedImage != null) {
             outState.putString("uriSave", selectedImage.toString())
         }
@@ -198,6 +206,8 @@ class AddChangeInformation : AppCompatActivity() {
         name!!.setText(savedInstanceState.getString("nameSave"))
         date!!.setText(savedInstanceState.getString("birthdaySave"))
         phone!!.setText(savedInstanceState.getString("phoneSave"))
+        if (savedInstanceState.getString("isDate").equals("true"))
+            setDate()
     }
 
     companion object {

@@ -36,8 +36,10 @@ class Profile : AppCompatActivity() {
     private var search: SearchView? = null
     private var sort: Spinner? = null
     private var db: AppDatabase? = null
+    private var canShow: Boolean = false;
     @RequiresApi(api = Build.VERSION_CODES.M)
     fun showListOfProfiles(contacts: List<Contact>?) {
+        canShow = true
         profiles!!.removeAllViews()
         for (contact in contacts!!) {
             val contactInfo = ContactInfo(this@Profile, contact)
@@ -48,7 +50,7 @@ class Profile : AppCompatActivity() {
     fun refreshListOfContacts(rule: String?) {
         when (sort!!.selectedItemPosition) {
             0 -> {
-                AsyncContactAction(db!!, this@Profile, null, rule!!,
+                AsyncContactAction(db!!, this@Profile, null, rule,
                         DataBaseComands.CONTACT_GET_ALL, null).execute()
             }
             1 -> {
@@ -80,7 +82,7 @@ class Profile : AppCompatActivity() {
         sort = findViewById(R.id.spinner_sort)
         search = findViewById(R.id.search_profile)
         sort!!.onItemSelectedListener = object : OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View, position: Int, id: Long) {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 refreshListOfContacts("%" + search!!.query.toString() + "%")
             }
 
@@ -127,9 +129,7 @@ class Profile : AppCompatActivity() {
             startActivity(intent)
         }
         btn_add = findViewById(R.id.add_profile)
-        btn_add!!.setOnClickListener({
-            // Если была нажата только один раз, то варианты добавления контакта появяться.
-// При повторном - исчезают
+        btn_add!!.setOnClickListener {
             if (!flag) {
                 btn_new!!.visibility = View.VISIBLE
                 btn_import!!.visibility = View.VISIBLE
@@ -142,7 +142,7 @@ class Profile : AppCompatActivity() {
                 btn_add!!.setImageResource(R.drawable.plus)
             }
             flag = !flag
-        })
+        }
         exit = findViewById(R.id.exit)
         exit!!.setOnClickListener {
             finish()
@@ -211,17 +211,14 @@ class Profile : AppCompatActivity() {
         val quitDialog = AlertDialog.Builder(
                 this@Profile)
         quitDialog.setTitle("Вы хотите выйти из приложения?")
-        quitDialog.setPositiveButton("Да") { dialog, which ->
+        quitDialog.setPositiveButton("Да") { _, _ ->
             finish()
         }
-        quitDialog.setNegativeButton("Нет") { dialog, which -> dialog.cancel() }
+        quitDialog.setNegativeButton("Нет") { dialog, _ -> dialog.cancel() }
         quitDialog.show()
     }
 
     companion object {
-        @JvmStatic
-        var login: String? = ""
-            private set
         private const val CONTACT_PICK_RESULT = 1
         private const val REQUEST_CODE_PERMISSION_READ_CONTACTS = 1
     }
