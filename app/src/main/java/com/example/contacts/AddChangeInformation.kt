@@ -13,6 +13,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -42,7 +43,14 @@ class AddChangeInformation : AppCompatActivity() {
 
     // установка начальных даты и времени
     private fun setInitialDateTime() {
-        date!!.setText(DateConverter.dateToString(dateAndTime.timeInMillis))
+        var now: Date = Date()
+        if (now.time < dateAndTime.timeInMillis){
+            var toast = Toast.makeText(this@AddChangeInformation, "Нельзя выбрать дату из будущего!", Toast.LENGTH_SHORT)
+            toast.show()
+        }
+        else {
+            date!!.setText(DateConverter.dateToString(dateAndTime.timeInMillis))
+        }
     }
 
     // отображаем диалоговое окно для выбора даты
